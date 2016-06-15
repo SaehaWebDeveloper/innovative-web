@@ -62,7 +62,6 @@ public class DatabaseConfig {
 		
 		dataSource.setAutoCommit(false);
 		dataSource.setRegisterMbeans(true);
-		
 		return dataSource;
 	}
 	
