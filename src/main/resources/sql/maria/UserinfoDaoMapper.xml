@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pure.futureweb.repository.UserinfoDao">
+	<select id="selectUser" resultType="UserSession" parameterType="UserLogin">
+		SELECT *
+		  FROM tb_userinfo
+		 WHERE userrealid = #{userid}
+	</select>
+	
+	<update id="updateUser">
+		UPDATE tb_userinfo
+		   SET password = #{password}
+		 WHERE userrealid = #{userid}
+	</update>
+</mapper>

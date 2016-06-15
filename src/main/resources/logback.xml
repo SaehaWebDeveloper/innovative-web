@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration scan="true" scanPeriod="30 seconds">
+
+	<property resource="./properties/config.properties" />
+
+	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+		<resetJUL>true</resetJUL>
+	</contextListener>
+
+	<!-- To enable JMX Management -->
+	<contextName>logger</contextName>
+	<jmxConfigurator />
+
+	<property name="encoderPattern" value="%d[%-5level]%-25thread[%c{2}.%M:%L]-%m%n" />
+
+ 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${encoderPattern}</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.path}/${log.filename}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.path.history}/${log.filename}-%d{yyyyMMdd}.%i.gz</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>200MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<append>true</append>
+		<encoder>
+			<pattern>${encoderPattern}</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE_WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.path}/${log.filename}_error.log</file>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>WARN</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.path.history}/error/${log.filename}_error-%d{yyyyMMdd}.log</fileNamePattern>
+			<maxHistory>300</maxHistory>
+		</rollingPolicy>
+		<append>true</append>
+		<encoder>
+			<pattern>${encoderPattern}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- Application Loggers -->
+	<logger name="com.dosa.framework" level="DEBUG" />
+	<logger name="org.springframework" level="WARN" />
+	<logger name="org.springframework.web.servlet.view.json" level="TRACE" />
+	<logger name="org.apache" level="ERROR" />
+	<logger name="org.springframework.context.annotation" level="ERROR" />
+	<logger name="org.springplugins.web.IgnoreSelectedAnnotationHandlerMapping" level="ERROR" />
+	<logger name="org.quartz" level="ERROR" />
+	
+	<!-- MyBatis Log -->
+	<logger name="org.mybatis" level="DEBUG" />
+	<logger name="java.sql.Connection" level="DEBUG" />
+	<logger name="java.sql.Statement" level="DEBUG" />
+	<logger name="java.sql.PreparedStatement" level="DEBUG" />
+	<logger name="java.sql.ResultSet" level="DEBUG" />
+	
+	<root level="${log.level.root}">
+		<appender-ref ref="STDOUT" />
+		<!-- <appender-ref ref="FILE" />
+		<appender-ref ref="FILE_WARN" /> -->
+	</root>
+</configuration>
