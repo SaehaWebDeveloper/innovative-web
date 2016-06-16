@@ -5,10 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.saeha.webdev.innovativeweb.model.Company;
 import com.saeha.webdev.innovativeweb.service.MessageService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -35,11 +33,6 @@ public class DefaultSettingInterceptor extends HandlerInterceptorAdapter {
 		
 		
 		HttpSession session = request.getSession();
-		Company company = (Company)session.getAttribute("COMPANY");
-		if(company == null){
-			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Company Load.");
-			session.setAttribute("COMPANY", new Company());
-		}
 		
 		return true;
 	}

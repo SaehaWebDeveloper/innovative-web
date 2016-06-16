@@ -46,7 +46,7 @@ public class CacheConfig {
 		return new HazelcastCacheManager(hazelcastInstance());
 	}
 	
-	@Bean @Lazy
+	@Bean(destroyMethod="shutdown") @Lazy
 	public HazelcastInstance hazelcastInstance(){
 		HazelcastInstance  hazelcastInstance = Hazelcast.newHazelcastInstance(config());
 		return hazelcastInstance;
@@ -72,7 +72,7 @@ public class CacheConfig {
 		
 		// FIXME Properties 설정
 		List<String> members = new ArrayList<>();
-		members.add("172.16.34.*");
+		members.add("172.16.34.77-80");
 		TcpIpConfig tcpIpConfig = new TcpIpConfig();
 		tcpIpConfig.setEnabled(true);
 		tcpIpConfig.setMembers(members);

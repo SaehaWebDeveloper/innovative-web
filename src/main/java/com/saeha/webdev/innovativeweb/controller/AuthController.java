@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.saeha.webdev.innovativeweb.model.UserLogin;
-import com.saeha.webdev.innovativeweb.model.UserSession;
-import com.saeha.webdev.innovativeweb.service.LoginService;
+import com.saeha.webdev.innovativeweb.model.user.Userinfo;
+import com.saeha.webdev.innovativeweb.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping(value="/auth")
 public class AuthController {
-	@Autowired private LoginService loginService;
+	@Autowired private UserService userService;
 	@Autowired private MessageSource messageSource;
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
@@ -35,12 +34,12 @@ public class AuthController {
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public @ResponseBody ModelAndView loginProcess(HttpSession session
-			, UserLogin userLogin) throws Exception{
+			, Userinfo userinfo) throws Exception{
 		// FIXME 로그인 실패 처리
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("userLogin", userLogin);
+		mv.addObject("userLogin", userinfo);
 		
-		UserSession userSession = loginService.checkUser(userLogin);
+		Userinfo userSession = userService.checkUser(userinfo);
 		if(userSession == null){
 			mv.addObject("checkResult", messageSource.getMessage("login.fail.message", null, LocaleContextHolder.getLocale()));
 			mv.setViewName("auth/login");

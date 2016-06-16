@@ -7,6 +7,8 @@
 <a href="logout">로그아웃</a>
 
 
+${user}
+
 
 
 <c:forEach var="conference" items="${conferenceList}">

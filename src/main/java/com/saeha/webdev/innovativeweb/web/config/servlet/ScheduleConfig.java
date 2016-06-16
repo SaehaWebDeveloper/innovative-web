@@ -46,7 +46,6 @@ public class ScheduleConfig {
 		//quartzProperties.setProperty("org.quartz.jobStore.misfireThreshold", "60000");
 		
 		schedulerFactoryBean.setQuartzProperties(quartzProperties);
-		
 		return schedulerFactoryBean;
 	}
 }

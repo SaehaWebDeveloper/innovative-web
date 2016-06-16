@@ -13,11 +13,17 @@ public enum JdbcInfoGenerator {
 	/**
 	 * Maria DB or MySQL
 	 */
-	MARIA("org.mariadb.jdbc.Driver", "jdbc:mariadb://{ip}:{port}/{dbname}", "3306"),
+	MARIA("org.mariadb.jdbc.Driver", 
+			"jdbc:mariadb://{ip}:{port}/{dbname}", 
+			"3306", 
+			"org.hibernate.dialect.MySQLDialect"),
 	/**
 	 * MS-SQL(SQL Server) 
 	 */
-	MSSQL("com.microsoft.sqlserver.jdbc.SQLServerDriver", "jdbc:sqlserver://{ip}:{port};DataBaseName={dbname}", "1443");
+	MSSQL("com.microsoft.sqlserver.jdbc.SQLServerDriver", 
+			"jdbc:sqlserver://{ip}:{port};DataBaseName={dbname}", 
+			"1443", 
+			"org.hibernate.dialect.SQLServerDialect");
 	
 	@Getter private String driverClassName;
 	@Getter private String url;
@@ -27,11 +33,13 @@ public enum JdbcInfoGenerator {
 	private String extra = "";
 	@Getter private String username = "root";
 	@Getter private String password = "saeha";
+	@Getter private String hibernateDialect;
 	
-	private JdbcInfoGenerator(String driverClassName, String url, String port){
+	private JdbcInfoGenerator(String driverClassName, String url, String port, String hibernateDialect){
 		this.driverClassName = driverClassName;
 		this.url = url;
 		this.port = port;
+		this.hibernateDialect = hibernateDialect;
 	}
 	
 	/**

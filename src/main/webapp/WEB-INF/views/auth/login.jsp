@@ -21,7 +21,7 @@ ${language}
 						<div class="form-group form-group-lg">
 							<div class="input-group">
 								<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-								<input type="text" class="form-control" id="userid" name="userid" placeholder="<s:message code='userid'/>" value="${userLogin.userid}">
+								<input type="text" class="form-control" id="userRealId" name="userRealId" placeholder="<s:message code='userid'/>" value="${userinfo.userRealId}">
 							</div>
 						</div>
 						<!-- 패스워드 -->

@@ -65,7 +65,10 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 					"/login"
 					, "/auth/*"
 					, "/message/*"
-					, "/error/*");
+					, "/error/*"
+					//Test
+					, "/user/*"
+					);
 	}
 	
 	@Bean

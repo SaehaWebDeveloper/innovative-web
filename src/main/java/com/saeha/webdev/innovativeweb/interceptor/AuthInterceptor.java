@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler;
 
-import com.saeha.webdev.innovativeweb.model.UserSession;
+import com.saeha.webdev.innovativeweb.model.user.Userinfo;
 
 public class AuthInterceptor extends HandlerInterceptorAdapter{
 	
@@ -24,7 +24,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 		}
 		
 		HttpSession session = request.getSession();
-		UserSession userSession = (UserSession)session.getAttribute("SESSION_USER");
+		Userinfo userSession = (Userinfo)session.getAttribute("SESSION_USER");
 		
 		if(userSession == null){
 			throw new ModelAndViewDefiningException(new ModelAndView("redirect:/login"));

@@ -1,22 +1,23 @@
 package com.saeha.webdev.innovativeweb.web.config.servlet;
 
+import java.util.Properties;
+
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.mybatis.spring.annotation.MapperScan;
+import org.hibernate.cfg.AvailableSettings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import com.saeha.webdev.innovativeweb.common.jdbc.JdbcInfoGenerator;
 import com.zaxxer.hikari.HikariDataSource;
@@ -25,32 +26,36 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Configuration
-@EnableTransactionManagement()
 @PropertySource(name="dbConfig", value="classpath:/properties/db.properties", ignoreResourceNotFound=true)
-@MapperScan(basePackages="com.saeha.webdev.innovativeweb", annotationClass=Repository.class)
+@EnableJpaRepositories(basePackages="com.saeha.webdev.innovativeweb.repository")
+@EnableTransactionManagement
 public class DatabaseConfig {
-	
 	@Autowired private Environment env;
 	
-	@Bean
-	public DataSource dataSource(){
-		String dbType = env.getProperty("db.type", JdbcInfoGenerator.MARIA.name()).toUpperCase();
-		JdbcInfoGenerator jdbcInfo = JdbcInfoGenerator.valueOf(dbType);
+	private JdbcInfoGenerator jdbcInfo;
+	private JdbcInfoGenerator getJdbcInfo(){
+		if(jdbcInfo == null){
+			String dbType = env.getProperty("db.type", JdbcInfoGenerator.MARIA.name()).toUpperCase();
+			jdbcInfo = JdbcInfoGenerator.valueOf(dbType);
+			
+			jdbcInfo.setInfo(env.getProperty("db.driverClassName")
+					, env.getProperty("db.url")
+					, env.getProperty("db.ip")
+					, env.getProperty("db.port")
+					, env.getProperty("db.dbname")
+					, env.getProperty("db.extra")
+					, env.getProperty("db.username")
+					, env.getProperty("db.password"));
+			log.info("dbType: {}, Jdbc Information: {}", dbType, jdbcInfo);
+		}
 		
-		jdbcInfo.setInfo(env.getProperty("db.driverClassName")
-				, env.getProperty("db.url")
-				, env.getProperty("db.ip")
-				, env.getProperty("db.port")
-				, env.getProperty("db.dbname")
-				, env.getProperty("db.extra")
-				, env.getProperty("db.username")
-				, env.getProperty("db.password"));
-		
-		log.info("dbType: {}, Jdbc Information: {}", dbType, jdbcInfo);
-		return makeDataSource(jdbcInfo);
+		return jdbcInfo;
 	}
 	
-	private DataSource makeDataSource(JdbcInfoGenerator jdbcInfo){
+	@Bean(destroyMethod="close")
+	public DataSource dataSource(){
+		JdbcInfoGenerator jdbcInfo = getJdbcInfo();
+		
 		HikariDataSource dataSource = new HikariDataSource();
 		dataSource.setDriverClassName(jdbcInfo.getDriverClassName());
 		dataSource.setJdbcUrl(jdbcInfo.getUrl());
@@ -61,34 +66,43 @@ public class DatabaseConfig {
 		dataSource.setMaximumPoolSize(10);
 		
 		dataSource.setAutoCommit(false);
-		dataSource.setRegisterMbeans(true);
+		//dataSource.setRegisterMbeans(true);
 		return dataSource;
 	}
 	
 	@Bean
-	public SqlSessionFactory SqlSessionFactory() throws Exception {
-		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-		sqlSessionFactoryBean.setDataSource(dataSource());
-		sqlSessionFactoryBean.setTypeAliasesPackage("com.saeha.webdev.innovativeweb.model");
-		sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:/sql/"+env.getProperty("db.type")+"/**/*Mapper.xml"));
-		sqlSessionFactoryBean.setConfigLocation(new ClassPathResource("/config/mybatis/mybatis-config.xml"));
-		return sqlSessionFactoryBean.getObject();
+	public JpaVendorAdapter jpaVendorAdapter(){
+		JdbcInfoGenerator jdbcInfo = getJdbcInfo();
+		
+		HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
+		jpaVendorAdapter.setDatabasePlatform(jdbcInfo.getHibernateDialect());
+		jpaVendorAdapter.setShowSql(true);
+		//jpaVendorAdapter.setGenerateDdl(true);
+		return jpaVendorAdapter;
 	}
 	
 	@Bean
-	public SqlSessionTemplate sessionTemplate() throws Exception {
-		return new SqlSessionTemplate(SqlSessionFactory());
+	public EntityManagerFactory entityManagerFactory(){
+		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+		entityManagerFactoryBean.setDataSource(dataSource());
+		entityManagerFactoryBean.setJpaVendorAdapter(jpaVendorAdapter());
+		entityManagerFactoryBean.setPackagesToScan("com.saeha.**.model");
+		entityManagerFactoryBean.setJpaProperties(hibernateProperties());
+		entityManagerFactoryBean.afterPropertiesSet();
+		
+		return entityManagerFactoryBean.getObject();
+	}
+	private Properties hibernateProperties(){
+		Properties properties = new Properties();
+		properties.setProperty(AvailableSettings.FORMAT_SQL, "true");
+		
+		return properties;
 	}
 	
 	@Bean
-	public DataSourceTransactionManager dataSourceTransactionManager(){
-		return new DataSourceTransactionManager(dataSource());
-	}
-	
-	@Bean
-	public TransactionTemplate transactionTemplate(){
-		TransactionTemplate transactionTemplate = new TransactionTemplate();
-		transactionTemplate.setTransactionManager(dataSourceTransactionManager());
-		return transactionTemplate;
+	public PlatformTransactionManager transactionManager() throws Exception {
+		JpaTransactionManager transactionManager = new JpaTransactionManager();
+		transactionManager.setEntityManagerFactory(entityManagerFactory());
+		return transactionManager;
 	}
 }

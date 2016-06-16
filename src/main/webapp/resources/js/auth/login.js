@@ -34,7 +34,7 @@ $(document).ready(function(){
 	
 	$('#loginForm').validate({
 		rules: {
-			userid: {
+			userRealId: {
 				required: true
 			},
 			password: {
