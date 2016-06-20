@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.saeha.webdev.innovativeweb.model.user.Userinfo;
+import com.saeha.webdev.innovativeweb.model.user.UserInfo;
 import com.saeha.webdev.innovativeweb.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,12 +34,12 @@ public class AuthController {
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public @ResponseBody ModelAndView loginProcess(HttpSession session
-			, Userinfo userinfo) throws Exception{
+			, UserInfo userInfo) throws Exception{
 		// FIXME 로그인 실패 처리
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("userLogin", userinfo);
+		mv.addObject("userLogin", userInfo);
 		
-		Userinfo userSession = userService.checkUser(userinfo);
+		UserInfo userSession = userService.checkUser(userInfo);
 		if(userSession == null){
 			mv.addObject("checkResult", messageSource.getMessage("login.fail.message", null, LocaleContextHolder.getLocale()));
 			mv.setViewName("auth/login");

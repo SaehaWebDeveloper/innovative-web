@@ -4,21 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.saeha.webdev.innovativeweb.model.user.Userinfo;
-import com.saeha.webdev.innovativeweb.model.user.UserinfoFunc.FunctionType;
-import com.saeha.webdev.innovativeweb.repository.UserinfoDao;
+import com.saeha.webdev.innovativeweb.model.user.UserInfo;
+import com.saeha.webdev.innovativeweb.repository.UserInfoRepository;
 
-import ch.qos.logback.core.recovery.ResilientFileOutputStream;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 public class UserService{
-	@Autowired private UserinfoDao userinfoDao;
+	@Autowired private UserInfoRepository userInfoRepository;
 
 	@Transactional(readOnly=true, rollbackFor=Exception.class)
-	public Userinfo checkUser(Userinfo userinfo) throws Exception{
-		Userinfo result = userinfoDao.findByUserRealId(userinfo.getUserRealId());
+	public UserInfo checkUser(UserInfo userInfo) throws Exception{
+		UserInfo result = userInfoRepository.findByUserRealIdAndGroupcode(userInfo.getUserRealId(), userInfo.getGroupcode());
 		
 		
 		log.debug("{}", result.getUserinfoFuncList());
@@ -31,8 +29,8 @@ public class UserService{
 	}
 	
 	@Transactional(readOnly=false, rollbackFor=Exception.class)
-	public void save(Userinfo userinfo){
-		Userinfo result = userinfoDao.save(userinfo);
+	public void save(UserInfo userinfo){
+		UserInfo result = userInfoRepository.save(userinfo);
 		log.debug("User Insert:{}", result);
 	}
 }

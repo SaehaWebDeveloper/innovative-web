@@ -17,7 +17,7 @@ import lombok.ToString;
 @Table(name="TB_USERINFO_FUNC") 
 @IdClass(UserinfoFuncPk.class)
 @ToString
-public class UserinfoFunc {
+public class UserInfoFunc {
 	@AllArgsConstructor
 	public enum FunctionType{
 		CREATE(0), JOIN(1), REMOTE(3), QUESTION(3), OBSVER(4);
@@ -30,10 +30,14 @@ public class UserinfoFunc {
 		}
 	}
 	
+	public UserinfoFuncPk getPk(){
+		return new UserinfoFuncPk(userId, functionType);
+	}
+	
 	@Id
-	@Column(name="USERID")
+	@Column(name="USER_ID")
 	@Getter@Setter
-	private int userid;
+	private int userId;
 	
 	@Id
 	@Column(name="FUNC_TYPE")

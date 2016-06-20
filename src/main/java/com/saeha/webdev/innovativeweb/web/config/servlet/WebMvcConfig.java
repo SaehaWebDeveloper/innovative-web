@@ -8,6 +8,10 @@ import java.util.Map;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.data.web.PagedResourcesAssemblerArgumentResolver;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.http.MediaType;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.accept.ContentNegotiationStrategy;
@@ -34,6 +38,7 @@ import com.saeha.webdev.innovativeweb.interceptor.DefaultSettingInterceptor;
 
 @Configuration
 @EnableWebMvc
+@EnableSpringDataWebSupport
 @ComponentScan(basePackages={"com.saeha.webdev.innovativeweb"})
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
@@ -135,5 +140,13 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		viewResolver.setSuffix(".jsp");
 		viewResolver.setOrder(4);
 		return viewResolver;
+	}
+	
+	@Bean
+	public PageableHandlerMethodArgumentResolver pageableHandlerMethodArgumentResolver(){
+		PageableHandlerMethodArgumentResolver resolver = new PageableHandlerMethodArgumentResolver();
+		resolver.setOneIndexedParameters(true);
+		resolver.setFallbackPageable(new PageRequest(0, 10));
+		return resolver;
 	}
 }

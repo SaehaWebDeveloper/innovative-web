@@ -9,8 +9,10 @@
 
 ${user}
 
+${list}
 
 
-<c:forEach var="conference" items="${conferenceList}">
+
+<c:forEach var="conference" items="${list.content}">
 	<div>${conference.confcode} - ${conference.title}</div>
 </c:forEach>

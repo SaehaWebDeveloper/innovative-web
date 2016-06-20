@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.saeha.webdev.innovativeweb.service.MessageService;
@@ -21,6 +22,7 @@ public class DefaultSettingInterceptor extends HandlerInterceptorAdapter {
 		
 		// 언어설정
 		messageService.settingLocale();
+		request.setAttribute("language", LocaleContextHolder.getLocale().getLanguage());
 		
 		// 접속 회사 정보 확인
 		

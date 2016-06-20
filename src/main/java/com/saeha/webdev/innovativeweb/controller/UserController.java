@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.saeha.webdev.innovativeweb.model.user.Userinfo;
+import com.saeha.webdev.innovativeweb.model.user.UserInfo;
 import com.saeha.webdev.innovativeweb.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,11 +19,11 @@ public class UserController {
 	@Autowired private UserService userService;
 	
 	@RequestMapping(value="/save", method=RequestMethod.POST)
-	public ModelAndView save(Userinfo userinfo){
+	public ModelAndView save(UserInfo userInfo){
 		ModelAndView mv = new ModelAndView(new RedirectView("/user/list"));
 		
 		
-		userService.save(userinfo);
+		userService.save(userInfo);
 		
 		
 		return mv;

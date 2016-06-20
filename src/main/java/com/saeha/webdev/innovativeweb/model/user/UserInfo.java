@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,13 +21,13 @@ import lombok.ToString;
 @Entity
 @Table(name="TB_USERINFO")
 @ToString
-public class Userinfo {
+public class UserInfo {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="USERID")
+	@Column(name="USER_ID")
 	@Getter@Setter
-	private int userid;
+	private int userId;
 	
 	@Column(name="USER_REAL_ID")
 	@Getter@Setter
@@ -39,8 +41,13 @@ public class Userinfo {
 	@Getter@Setter
 	private String userName;
 	
-	@OneToMany( fetch=FetchType.LAZY)
-	@JoinColumn(name="USERID", referencedColumnName="USERID")
+	@Column(name="GROUPCODE")
 	@Getter@Setter
-	private List<UserinfoFunc> UserinfoFuncList;
+	private int groupcode;
+	
+	@JsonIgnore
+	@OneToMany(fetch=FetchType.LAZY)
+	@JoinColumn(name="USER_ID", referencedColumnName="USER_ID")
+	@Getter@Setter
+	private List<UserInfoFunc> UserinfoFuncList;
 }

@@ -38,8 +38,6 @@ public class CommonInterceptor extends HandlerInterceptorAdapter{
 		}
 		printRequestInfo(request);
 		
-		request.setAttribute("language", LocaleContextHolder.getLocale().getLanguage());
-		
 		return true;
 	}
 
