@@ -41,6 +41,8 @@ import lombok.extern.slf4j.Slf4j;
 @EnableCaching
 public class CacheConfig {
 	
+	public final static String CACHE_MESSAGE_PROPERTY = "messageProperty";
+	
 	@Bean
 	public CacheManager cacheManager(){
 		return new HazelcastCacheManager(hazelcastInstance());
@@ -91,18 +93,10 @@ public class CacheConfig {
 		return networkConfig;
 	}
 	
-	private MapConfig mapConfigForIdle30(){
-		MapConfig mapConfig = new MapConfig();
-		mapConfig.setMaxIdleSeconds(30);
-		mapConfig.setEvictionPolicy(EvictionPolicy.LFU);
-		mapConfig.setMaxSizeConfig(new MaxSizeConfig(10, MaxSizePolicy.PER_NODE));
-		return mapConfig;
-	}
-	
 	private Map<String, MapConfig> mapConfigs(){
-		// FIXME Properties 설정??
 		Map<String, MapConfig> mapConfigs = new HashMap<>();
-		mapConfigs.put("messageProperty", mapConfigForIdle30());
+		mapConfigs.put(CACHE_MESSAGE_PROPERTY, mapConfigForIdleAndSize(30, 10));
+		// Cache Add
 		return mapConfigs;
 	}
 	
@@ -110,5 +104,13 @@ public class CacheConfig {
 		Properties properties = new Properties();
 		properties.setProperty("hazelcast.jmx", "true"); // JMX 사용
 		return properties;
+	}
+	
+	private MapConfig mapConfigForIdleAndSize(int idle, int size){
+		MapConfig mapConfig = new MapConfig();
+		mapConfig.setMaxIdleSeconds(idle);
+		mapConfig.setEvictionPolicy(EvictionPolicy.LFU);
+		mapConfig.setMaxSizeConfig(new MaxSizeConfig(size, MaxSizePolicy.PER_NODE));
+		return mapConfig;
 	}
 }

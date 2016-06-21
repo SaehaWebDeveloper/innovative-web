@@ -13,13 +13,15 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
+import com.saeha.webdev.innovativeweb.web.config.servlet.CacheConfig;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 public class MessageService {
 	
-	@Cacheable(cacheNames="messageProperty", key="#messageFileName")
+	@Cacheable(cacheNames=CacheConfig.CACHE_MESSAGE_PROPERTY, key="#messageFileName")
 	public String readMessagePropertyFile(String messageFileName) throws IOException{
 		log.debug("Message Properties File Read. {}", messageFileName);
 		

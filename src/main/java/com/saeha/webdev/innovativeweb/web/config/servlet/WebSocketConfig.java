@@ -11,15 +11,15 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 
 /**
  * 
- * TODO STOMP
- * 
  * @author Pure
  *
  */
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
-
+	
+	private final static int MAX_BUFFER_SIZE = 65535;
+	
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry){
 		registry.addEndpoint("/ws/default")
@@ -33,12 +33,11 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 		registry.setUserDestinationPrefix("/user");
 	}
 	
-	
 	@Bean
 	public ServletServerContainerFactoryBean servletServerContainer(){
 		ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
-		container.setMaxTextMessageBufferSize(65535);
-		container.setMaxBinaryMessageBufferSize(65535);
+		container.setMaxTextMessageBufferSize(MAX_BUFFER_SIZE);
+		container.setMaxBinaryMessageBufferSize(MAX_BUFFER_SIZE);
 		return container;
 	}
 }

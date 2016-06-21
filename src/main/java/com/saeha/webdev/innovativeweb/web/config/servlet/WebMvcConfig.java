@@ -1,8 +1,7 @@
 package com.saeha.webdev.innovativeweb.web.config.servlet;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.context.annotation.Bean;
@@ -10,13 +9,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
-import org.springframework.data.web.PagedResourcesAssemblerArgumentResolver;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.http.MediaType;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.accept.ContentNegotiationStrategy;
 import org.springframework.web.accept.PathExtensionContentNegotiationStrategy;
-import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -41,7 +38,7 @@ import com.saeha.webdev.innovativeweb.interceptor.DefaultSettingInterceptor;
 @EnableSpringDataWebSupport
 @ComponentScan(basePackages={"com.saeha.webdev.innovativeweb"})
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
-
+	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
@@ -70,7 +67,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 					"/login"
 					, "/auth/*"
 					, "/message/*"
-					, "/error/*"
+					, "/error*"
 					//Test
 					, "/user/*"
 					);
@@ -97,7 +94,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	public ContentNegotiationStrategy contentNegotiationStrategy(){
 		Map<String, MediaType> mediaTypeMap = new HashMap<>();
 		mediaTypeMap.put("html", MediaType.TEXT_HTML);
-		mediaTypeMap.put("json", MediaType.APPLICATION_JSON);
+		mediaTypeMap.put("json", MediaType.APPLICATION_JSON_UTF8);
 		
 		return new PathExtensionContentNegotiationStrategy(mediaTypeMap);
 	}
@@ -107,12 +104,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	}
 	@Bean
 	public ContentNegotiatingViewResolver contentNegotiatingViewResolver(){
-		List<View> defaultViews = new ArrayList<>();
-		defaultViews.add(jsonView());
-		
 		ContentNegotiatingViewResolver contentNegotiatingViewResolver = new ContentNegotiatingViewResolver();
 		contentNegotiatingViewResolver.setContentNegotiationManager(contentNegotiationManager());
-		contentNegotiatingViewResolver.setDefaultViews(defaultViews);
+		contentNegotiatingViewResolver.setDefaultViews(Arrays.asList(jsonView()));
 		contentNegotiatingViewResolver.setOrder(2);
 		return contentNegotiatingViewResolver;
 	}
