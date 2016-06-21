@@ -10,6 +10,7 @@ import org.springframework.web.socket.server.standard.ServletServerContainerFact
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
 /**
+ * WebSocket + STOMP
  * 
  * @author Pure
  *
@@ -18,6 +19,9 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 @EnableWebSocketMessageBroker
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 	
+	/**
+	 * Text, Binary Buffer Size
+	 */
 	private final static int MAX_BUFFER_SIZE = 65535;
 	
 	@Override

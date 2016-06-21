@@ -26,7 +26,7 @@ public enum JdbcInfoGenerator {
 			"org.hibernate.dialect.SQLServerDialect");
 	
 	@Getter private String driverClassName;
-	@Getter private String url;
+	@Getter private String jdbcUrl;
 	private String ip = "127.0.0.1";
 	private String port = "";
 	private String dbname = "mv61";
@@ -37,7 +37,7 @@ public enum JdbcInfoGenerator {
 	
 	private JdbcInfoGenerator(String driverClassName, String url, String port, String hibernateDialect){
 		this.driverClassName = driverClassName;
-		this.url = url;
+		this.jdbcUrl = url;
 		this.port = port;
 		this.hibernateDialect = hibernateDialect;
 	}
@@ -45,7 +45,7 @@ public enum JdbcInfoGenerator {
 	/**
 	 * Jdbc 접속 정보 설정
 	 * @param driverClassName
-	 * @param url
+	 * @param jdbcUrl
 	 * @param ip
 	 * @param port
 	 * @param dbname
@@ -56,7 +56,7 @@ public enum JdbcInfoGenerator {
 	 */
 	public JdbcInfoGenerator setInfo(
 			String driverClassName
-			, String url
+			, String jdbcUrl
 			, String ip
 			, String port
 			, String dbname
@@ -75,10 +75,10 @@ public enum JdbcInfoGenerator {
 			this.dbname = dbname;
 		if(extra != null && !extra.isEmpty())
 			this.extra = extra;
-		if(url != null && !url.isEmpty())
-			this.url = url;
+		if(jdbcUrl != null && !jdbcUrl.isEmpty())
+			this.jdbcUrl = jdbcUrl;
 		else
-			this.url = makeJdbcUrl();
+			this.jdbcUrl = makeJdbcUrl();
 		
 		if(username != null && !username.isEmpty())
 			this.username = username;
@@ -93,7 +93,7 @@ public enum JdbcInfoGenerator {
 	 * @return
 	 */
 	private String makeJdbcUrl(){
-		return url.replace("{ip}", ip)
+		return jdbcUrl.replace("{ip}", ip)
 			.replace("{port}", port)
 			.replace("{dbname}", dbname) + extra;
 	}

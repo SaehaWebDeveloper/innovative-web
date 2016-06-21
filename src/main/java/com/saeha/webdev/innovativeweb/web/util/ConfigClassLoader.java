@@ -9,6 +9,8 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.SimpleMetadataReaderFactory;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -24,6 +26,7 @@ public class ConfigClassLoader {
 	 * @author Pure
 	 *
 	 */
+	@AllArgsConstructor
 	public enum ConfigType{
 		/**
 		 * Root Context
@@ -34,17 +37,10 @@ public class ConfigClassLoader {
 		 */
 		SERVLET("/config/servlet");
 		
-		private String path;
-		private ConfigType(String path){
-			this.path = path;
-		}
 		/**
 		 * Context 파일의 위치
-		 * @return
 		 */
-		public String getPath(){
-			return path;
-		}
+		@Getter private String path;
 	}
 	
 	/**

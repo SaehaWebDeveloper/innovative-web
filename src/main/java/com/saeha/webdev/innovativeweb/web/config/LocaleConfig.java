@@ -1,6 +1,5 @@
 package com.saeha.webdev.innovativeweb.web.config;
 
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,19 +7,29 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+/**
+ * 다국어 설정
+ * 
+ * @author Pure
+ *
+ */
 @Configuration
 public class LocaleConfig {
-	@Bean
-	public PropertyPlaceholderConfigurer propertyPlaceholderConfigurer(){
-		PropertyPlaceholderConfigurer propertyPlaceholderConfigurer = new PropertyPlaceholderConfigurer();
-		return propertyPlaceholderConfigurer;
-	}
 	
+	/**
+	 * 다국어 설정 방식
+	 * 
+	 * @return LocaleResolver
+	 */
 	@Bean
 	public LocaleResolver localeResolver(){
-		SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-		return localeResolver;
+		return new SessionLocaleResolver();
 	}
+	/**
+	 * 다국어 메시지
+	 * 
+	 * @return MessageSource
+	 */
 	@Bean
 	public MessageSource messageSource(){
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();

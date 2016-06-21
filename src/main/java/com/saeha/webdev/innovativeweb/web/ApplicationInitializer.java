@@ -7,9 +7,11 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 import com.saeha.webdev.innovativeweb.web.util.ConfigClassLoader;
 import com.saeha.webdev.innovativeweb.web.util.ConfigClassLoader.ConfigType;
+import com.saeha.webdev.innovativeweb.web.util.filter.XSSFilter;
 
 /**
  * web.xml 설정
+ * 
  * @author Pure
  *
  */
@@ -20,6 +22,7 @@ public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherSe
 	 */
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
+		// root context config
 		return ConfigClassLoader.getConfigClass(ConfigType.ROOT, this.getClass().getPackage().getName());
 	}
 
@@ -28,6 +31,7 @@ public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherSe
 	 */
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
+		// servlet context config
 		return ConfigClassLoader.getConfigClass(ConfigType.SERVLET, this.getClass().getPackage().getName());
 	}
 	
@@ -45,11 +49,15 @@ public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherSe
 	 */
 	@Override
 	protected Filter[] getServletFilters() {
+		// CharacterEncodingFilter
 		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
 		encodingFilter.setEncoding("UTF-8");
 		encodingFilter.setForceEncoding(true);
 		
-		return new Filter[]{encodingFilter};
+		// XSS Filter
+		XSSFilter xssFilter = new XSSFilter();
+		
+		return new Filter[]{encodingFilter, xssFilter};
 	}
 
 }
