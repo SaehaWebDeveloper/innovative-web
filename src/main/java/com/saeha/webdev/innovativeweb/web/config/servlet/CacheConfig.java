@@ -97,6 +97,8 @@ public class CacheConfig {
 		Map<String, MapConfig> mapConfigs = new HashMap<>();
 		mapConfigs.put(CACHE_MESSAGE_PROPERTY, mapConfigForIdleAndSize(30, 10));
 		// Cache Add
+		
+		log.debug("Cache Map:{}", mapConfigs);
 		return mapConfigs;
 	}
 	

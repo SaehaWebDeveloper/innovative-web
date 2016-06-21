@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler;
@@ -63,6 +62,7 @@ public class CommonInterceptor extends HandlerInterceptorAdapter{
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void printRequestInfo(HttpServletRequest request) {
 		Map<String, Object> requestInfoMap = new LinkedHashMap<>();
 		

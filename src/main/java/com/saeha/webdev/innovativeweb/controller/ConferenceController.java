@@ -31,6 +31,8 @@ public class ConferenceController {
 			, Model model
 			) throws Exception {
 		
+		log.debug("pageable:{}", pageable);
+		
 		model.addAttribute("list", conferenceService.getConferecneInfoList(pageable));
 		
 		return "conference/list";

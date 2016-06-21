@@ -41,6 +41,7 @@ public class AuthController {
 		
 		UserInfo userSession = userService.checkUser(userInfo);
 		if(userSession == null){
+			log.info("Not Found User.");
 			mv.addObject("checkResult", messageSource.getMessage("login.fail.message", null, LocaleContextHolder.getLocale()));
 			mv.setViewName("auth/login");
 			return mv;

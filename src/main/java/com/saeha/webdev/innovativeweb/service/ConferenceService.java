@@ -8,9 +8,6 @@ import org.springframework.stereotype.Service;
 import com.saeha.webdev.innovativeweb.model.conference.ConferenceInfo;
 import com.saeha.webdev.innovativeweb.repository.ConferenceInfoRespository;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Service
 public class ConferenceService {
 	@Autowired private ConferenceInfoRespository conferenceInfoRespository;

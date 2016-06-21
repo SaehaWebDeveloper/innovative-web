@@ -2,7 +2,6 @@ package com.saeha.webdev.innovativeweb.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -32,9 +31,6 @@ public class DefaultSettingInterceptor extends HandlerInterceptorAdapter {
 		
 		// 회사 정보 로딩 및 세션에 저장
 		// 회사 기본 정보, 세팅 정보, 기타 정보등
-		
-		
-		HttpSession session = request.getSession();
 		
 		return true;
 	}

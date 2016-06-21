@@ -1,6 +1,7 @@
 package com.saeha.webdev.innovativeweb.controller;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,7 +36,6 @@ public class MessageController {
 	public @ResponseBody Object getMessageProperties(
 			@PathVariable String messageFileName
 			, Model model) throws IOException{
-		
 		String messageContent = messageService.readMessagePropertyFile(messageFileName);
 		return messageContent;
 	}
@@ -49,6 +49,7 @@ public class MessageController {
 	 */
 	@RequestMapping(value="/languages", produces={"application/json; charset=UTF-8"})
 	public @ResponseBody Model checkAvailableLanguages(Model model){
+		log.debug("Supported Language:{}", Arrays.asList(""));
 		model.addAttribute("languages", new String[]{"", "ko", "en", "ja"});
 		return model;
 	}

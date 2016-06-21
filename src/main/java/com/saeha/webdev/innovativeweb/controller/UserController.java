@@ -21,11 +21,8 @@ public class UserController {
 	@RequestMapping(value="/save", method=RequestMethod.POST)
 	public ModelAndView save(UserInfo userInfo){
 		ModelAndView mv = new ModelAndView(new RedirectView("/user/list"));
-		
-		
 		userService.save(userInfo);
-		
-		
+		log.debug("save User");
 		return mv;
 	}
 }
