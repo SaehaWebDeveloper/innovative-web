@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
@@ -37,8 +37,14 @@ import com.saeha.webdev.innovativeweb.interceptor.DefaultSettingInterceptor;
 @Configuration
 @EnableWebMvc
 @EnableSpringDataWebSupport
-@ComponentScan(basePackages={"com.saeha.webdev.innovativeweb"})
+@ComponentScan(basePackages={"${config.spring.component.basePackages}"})
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
+	
+	/**
+	 * Tiles Definitions
+	 */
+	@Value("#{'${config.tiles.definitions:}'.split(',')}")
+	private String[] tilesDefinitions;
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -115,7 +121,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public TilesConfigurer tilesConfigurer(){
 		TilesConfigurer tilesConfigurer = new TilesConfigurer();
-		tilesConfigurer.setDefinitions("classpath:/config/tiles/user-definition.xml");
+		tilesConfigurer.setDefinitions(tilesDefinitions);
 		return tilesConfigurer;
 	}
 	

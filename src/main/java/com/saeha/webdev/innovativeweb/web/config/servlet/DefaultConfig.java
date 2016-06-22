@@ -14,8 +14,9 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  */
 @Configuration
 @PropertySources({
-	@PropertySource(name="dbConfig", value="classpath:/properties/db.properties", ignoreResourceNotFound=true)
-	,@PropertySource(name="config", value="classpath:/properties/config.properties", ignoreResourceNotFound=true)
+	@PropertySource(name="config", value="classpath:/properties/config.properties")
+	,@PropertySource(name="dbConfig", value="classpath:/properties/db.properties", ignoreResourceNotFound=true)
+	,@PropertySource(name="appConfig", value="classpath:/properties/application.properties")
 })
 public class DefaultConfig {
 	/**

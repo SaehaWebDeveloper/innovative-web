@@ -16,14 +16,21 @@ public enum JdbcInfoGenerator {
 	MARIA("org.mariadb.jdbc.Driver", 
 			"jdbc:mariadb://{ip}:{port}/{dbname}", 
 			"3306", 
-			"org.hibernate.dialect.MySQLDialect"),
+			"org.hibernate.dialect.MySQL5Dialect"),
 	/**
 	 * MS-SQL(SQL Server) 
 	 */
 	MSSQL("com.microsoft.sqlserver.jdbc.SQLServerDriver", 
 			"jdbc:sqlserver://{ip}:{port};DataBaseName={dbname}", 
 			"1443", 
-			"org.hibernate.dialect.SQLServerDialect");
+			"org.hibernate.dialect.SQLServer2012Dialect"),
+	/**
+	 * Oracle
+	 */
+	ORACLE("oracle.jdbc.OracleDriver",
+			"jdbc:oracle:thin:@{ip}:{port}:{dbname}",
+			"1521",
+			"org.hibernate.dialect.Oracle12cDialect");
 	
 	@Getter private String driverClassName;
 	@Getter private String jdbcUrl;
@@ -52,6 +59,7 @@ public enum JdbcInfoGenerator {
 	 * @param extra
 	 * @param username
 	 * @param password
+	 * @param hibernateDialect
 	 * @return
 	 */
 	public JdbcInfoGenerator setInfo(
@@ -62,7 +70,8 @@ public enum JdbcInfoGenerator {
 			, String dbname
 			, String extra
 			, String username
-			, String password){
+			, String password
+			, String hibernateDialect){
 		
 		if(driverClassName != null && !driverClassName.isEmpty())
 			this.driverClassName = driverClassName;
@@ -84,6 +93,9 @@ public enum JdbcInfoGenerator {
 			this.username = username;
 		if(password != null && !password.isEmpty())
 			this.password = password;
+		
+		if(hibernateDialect != null && !hibernateDialect.isEmpty())
+			this.hibernateDialect = hibernateDialect;
 		
 		return this;
 	}

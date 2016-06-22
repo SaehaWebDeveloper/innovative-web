@@ -32,54 +32,113 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages="com.saeha.webdev.innovativeweb.repository")
+@EnableJpaRepositories(basePackages="${config.spring.jpa.repository.basePackages}")
 public class DatabaseConfig {
+	/**
+	 * JDBC Driver Class Name
+	 */
+	@Value("${config.spring.jpa.entiry.packagesToScan:}")
+	private String entityPackagesToSacn;
 	
+	/**
+	 * DB 구분 with JdbcInfoGenerator
+	 */
 	@Value("#{'${db.type:MARIA}'.toUpperCase()}")
 	private String dbType;
 	
+	/**
+	 * 접속 정보 암호화 여부
+	 */
 	@Value("${db.encode:false}")
 	private boolean encode;
 	
+	/**
+	 * JDBC Driver Class Name
+	 */
 	@Value("${db.driverClassName:}")
 	private String driverClassName;
 	
+	/**
+	 * JDBC URL
+	 */
 	@Value("${db.url:}")
 	private String jdbcUrl;
 	
+	/**
+	 * DB IP
+	 */
 	@Value("${db.ip:}")
 	private String dbIp;
 	
+	/**
+	 * DB Port
+	 */
 	@Value("${db.port:}")
 	private String dbPort;
 	
+	/**
+	 * DB Name
+	 */
 	@Value("${db.dbname:}")
 	private String dbName;
 	
+	/**
+	 * JDBC URL의 추가 설정 값
+	 */
 	@Value("${db.extra:}")
 	private String jdbcUrlExtra;
 	
+	/**
+	 * DB 접속 사용자
+	 */
 	@Value("${db.username:}")
 	private String username;
 	
+	/**
+	 * DB 접속 사용자 패스워드
+	 */
 	@Value("${db.password:}")
 	private String password;
 	
+	/**
+	 * DB에 따른 Hibernate Dialect Class 이름
+	 */
+	@Value("${db.hibernate.dialect:}")
+	private String hibernateDialect;
+	
+	/**
+	 * HikariDataSource Pool 이름
+	 */
 	@Value("${db.hcp.poolName:connectionPool}")
 	private String hcpPoolName;
 	
+	/**
+	 * HikariDataSource Pool 크기
+	 */
 	@Value("${db.hcp.maximumPoolSize:10}")
 	private int hcpMaximumPoolSize;
 	
+	/**
+	 * HikariDataSource idle 제한 시간
+	 */
 	@Value("${db.hcp.idleTimeout:60000}")
 	private long hcpIdleTimeout;
 	
+	/**
+	 * HikariDataSource 접속 제한 시간
+	 */
 	@Value("${db.hcp.connectionTimeout:300000}")
 	private long hcpConnectionTimeout;
 	
+	/**
+	 * Hibernate SQL 출력 여부
+	 */
 	@Value("${db.hibernate.show_sql:true}")
 	private String hibernateShowSql;
 	
+	/**
+	 * Hibernate SQL 형식 변경 여부
+	 */
 	@Value("${db.hibernate.format_sql:true}")
 	private String hibernateFormatSql;
 	
@@ -94,7 +153,7 @@ public class DatabaseConfig {
 		if(jdbcInfo == null){
 			jdbcInfo = JdbcInfoGenerator.valueOf(dbType);
 			
-			jdbcInfo.setInfo(driverClassName, jdbcUrl, dbIp, dbPort, dbName, jdbcUrlExtra, username, password);
+			jdbcInfo.setInfo(driverClassName, jdbcUrl, dbIp, dbPort, dbName, jdbcUrlExtra, username, password, hibernateDialect);
 			log.info("dbType: {}, Jdbc Information: {}", dbType, jdbcInfo);
 		}
 		
@@ -151,7 +210,7 @@ public class DatabaseConfig {
 		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
 		entityManagerFactoryBean.setDataSource(dataSource());
 		entityManagerFactoryBean.setJpaVendorAdapter(jpaVendorAdapter());
-		entityManagerFactoryBean.setPackagesToScan("com.saeha.**.model");
+		entityManagerFactoryBean.setPackagesToScan(entityPackagesToSacn);
 		entityManagerFactoryBean.setJpaProperties(hibernateProperties());
 		entityManagerFactoryBean.afterPropertiesSet();
 		
