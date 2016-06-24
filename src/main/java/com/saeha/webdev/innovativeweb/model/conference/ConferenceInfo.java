@@ -11,6 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.saeha.webdev.innovativeweb.model.company.CompanyInfo;
 import com.saeha.webdev.innovativeweb.model.user.UserInfo;
 
 import lombok.Getter;
@@ -19,7 +20,7 @@ import lombok.ToString;
 
 @Entity
 @Table(name="TB_CONFERENCE_INFO")
-@ToString(exclude="userInfo")
+@ToString(exclude={"userInfo", "companyInfo"})
 public class ConferenceInfo {
 	@Id
 	@Column(name="CONFCODE")
@@ -28,7 +29,7 @@ public class ConferenceInfo {
 	
 	@Column(name="GROUPCODE")
 	@Getter@Setter
-	private String groupcode;
+	private int groupcode;
 	
 	@Column(name="TITLE")
 	@Getter@Setter
@@ -49,6 +50,12 @@ public class ConferenceInfo {
 	@Column(name="REG_DATE")
 	@Getter@Setter
 	private Date regDate;
+	
+	@JsonIgnore
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="GROUPCODE", referencedColumnName="GROUPCODE", insertable=false, updatable=false)
+	@Getter@Setter
+	private CompanyInfo companyInfo;
 	
 	@JsonIgnore
 	@OneToOne(fetch=FetchType.LAZY)
