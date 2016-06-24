@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.saeha.webdev.innovativeweb.model.skin.SkinInfo;
 import com.saeha.webdev.innovativeweb.service.MessageService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,8 @@ public class DefaultSettingInterceptor extends HandlerInterceptorAdapter {
 		
 		// 회사 정보 로딩 및 세션에 저장
 		// 회사 기본 정보, 세팅 정보, 기타 정보등
+		
+		request.setAttribute("skinInfo", new SkinInfo());
 		
 		return true;
 	}

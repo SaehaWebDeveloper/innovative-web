@@ -2,24 +2,24 @@
  <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
-	<definition name="auth/login" template="/WEB-INF/template/tiles/login_template.jsp">
-		<put-attribute name="body" value="/WEB-INF/views/auth/login.jsp" />
+	<definition name="auth/login" templateExpression="/WEB-INF/template/tiles/login_template.jsp">
+		<put-attribute name="body" expression="/WEB-INF/views/skin/${skinInfo.skinCode}/auth/login.jsp" />
 	</definition>
 	
-	<definition name="blankTemplate" template="/WEB-INF/template/tiles/blank_template.jsp">
+	<definition name="blankTemplate" templateExpression="/WEB-INF/template/tiles/blank_template.jsp">
 	</definition>
 	
 	<definition name="error/*" extends="blankTemplate">
 		<put-attribute name="body" value="/WEB-INF/common/error/{1}.jsp" />
 	</definition>
 	
-	<definition name="defaultTemplate" template="/WEB-INF/template/tiles/default/default_template.jsp">
-		<put-attribute name="header" value="/WEB-INF/template/tiles/default/header.jsp" />
+	<definition name="defaultTemplate" templateExpression="/WEB-INF/template/tiles/default/default_template.jsp">
+		<put-attribute name="header" expression="/WEB-INF/template/tiles/default/header.jsp" />
 	</definition>
 	
-	<definition name="*/*" extends="defaultTemplate">
+	<definition name="*/*" templateExpression="defaultTemplate">
 		<put-attribute name="location" value="{1}/{2}" />
-		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+		<put-attribute name="body" expression="/WEB-INF/views/skin/${skinInfo.skinCode}/{1}/{2}.jsp" />
 	</definition>
 
 </tiles-definitions>

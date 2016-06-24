@@ -31,8 +31,9 @@ public class CommonInterceptor extends HandlerInterceptorAdapter{
 		if(request.getAttribute(ST) == null){
 			request.setAttribute(ST, System.currentTimeMillis());
 			
-			if(log.isDebugEnabled()){
-				log.info("[START-{}({})]", request.getRequestURI(), request.getMethod());
+			if(log.isInfoEnabled()){
+				log.info("[START-{}({})]", 
+						request.getRequestURI(), request.getMethod());
 			}
 		}
 		printRequestInfo(request);
@@ -43,8 +44,10 @@ public class CommonInterceptor extends HandlerInterceptorAdapter{
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 		if (!isDefaultHandler(handler)) {
-			if(log.isDebugEnabled()){
-				log.debug("[ING-{}({})]({}ms) modelAndView:{}", request.getRequestURI(), request.getMethod(), System.currentTimeMillis()-(Long)request.getAttribute(ST), modelAndView);
+			if(log.isInfoEnabled()){
+				log.info("[ING-{}({})]({}ms) modelAndView:{}, skin:{}", 
+						request.getRequestURI(), request.getMethod(), System.currentTimeMillis()-(Long)request.getAttribute(ST),
+						modelAndView, request.getAttribute("skinInfo"));
 			}
 		}
 	}
@@ -56,8 +59,9 @@ public class CommonInterceptor extends HandlerInterceptorAdapter{
 		}
 		
 		if(!isDefaultHandler(handler)){
-			if(log.isDebugEnabled()){
-				log.info("[END-{}({})]({}ms)", req.getRequestURI(), req.getMethod(), System.currentTimeMillis()-(Long)req.getAttribute(ST));
+			if(log.isInfoEnabled()){
+				log.info("[END-{}({})]({}ms)", 
+						req.getRequestURI(), req.getMethod(), System.currentTimeMillis()-(Long)req.getAttribute(ST));
 			}
 		}
 	}
