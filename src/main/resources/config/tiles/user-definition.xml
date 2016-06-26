@@ -3,7 +3,7 @@
 
 <tiles-definitions>
 	<definition name="auth/login" templateExpression="/WEB-INF/template/tiles/login_template.jsp">
-		<put-attribute name="body" expression="/WEB-INF/views/skin/${skinInfo.skinCode}/auth/login.jsp" />
+		<put-attribute name="body" expression="/WEB-INF/views/skin/${SKIN_INFO.skinCode}/auth/login.jsp" />
 	</definition>
 	
 	<definition name="blankTemplate" templateExpression="/WEB-INF/template/tiles/blank_template.jsp">
@@ -19,7 +19,7 @@
 	
 	<definition name="*/*" templateExpression="defaultTemplate">
 		<put-attribute name="location" value="{1}/{2}" />
-		<put-attribute name="body" expression="/WEB-INF/views/skin/${skinInfo.skinCode}/{1}/{2}.jsp" />
+		<put-attribute name="body" expression="/WEB-INF/views/skin/${SKIN_INFO.skinCode}/{1}/{2}.jsp" />
 	</definition>
 
 </tiles-definitions>

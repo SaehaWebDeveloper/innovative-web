@@ -7,10 +7,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler;
+
+import com.saeha.webdev.innovativeweb.common.constants.SessionConstants;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,22 +35,22 @@ public class CommonInterceptor extends HandlerInterceptorAdapter{
 			request.setAttribute(ST, System.currentTimeMillis());
 			
 			if(log.isInfoEnabled()){
-				log.info("[START-{}({})]", 
-						request.getRequestURI(), request.getMethod());
+				log.info("[START-{}({}), {}]", 
+						request.getRequestURI(), request.getMethod(), printRequestInfo(request));
 			}
 		}
-		printRequestInfo(request);
-		
 		return true;
 	}
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 		if (!isDefaultHandler(handler)) {
+			HttpSession session = request.getSession();
+			
 			if(log.isInfoEnabled()){
-				log.info("[ING-{}({})]({}ms) modelAndView:{}, skin:{}", 
+				log.info("[ING-{}({})]({}ms), modelAndView:{}, skin:{}", 
 						request.getRequestURI(), request.getMethod(), System.currentTimeMillis()-(Long)request.getAttribute(ST),
-						modelAndView, request.getAttribute("skinInfo"));
+						modelAndView, session.getAttribute(SessionConstants.SESSION_SKIN_INFO));
 			}
 		}
 	}
@@ -67,10 +70,10 @@ public class CommonInterceptor extends HandlerInterceptorAdapter{
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void printRequestInfo(HttpServletRequest request) {
-		Map<String, Object> requestInfoMap = new LinkedHashMap<>();
+	private Map<String, Object> printRequestInfo(HttpServletRequest request) {
+		Map<String, Object> infoMap = new LinkedHashMap<>();
 		
-		requestInfoMap.put("HTTP REQUEST INFORMATION", "--");
+		Map<String, Object> requestInfoMap = new LinkedHashMap<>();
 		requestInfoMap.put("URI", request.getRequestURI());
 		requestInfoMap.put("QueryString", request.getQueryString());
 		
@@ -91,16 +94,16 @@ public class CommonInterceptor extends HandlerInterceptorAdapter{
 			}
 		}
 		requestInfoMap.put("Parameter", resultParameterMap);
-		parameterMap = null;
-		resultParameterMap = null;
+		infoMap.put("HTTP REQUEST INFORMATION", requestInfoMap);
 		
-		requestInfoMap.put("HEADER INFORMATION", "--");
+		Map<String, Object> headerInfoMap = new LinkedHashMap<>();
 		Enumeration<String> headerNames = request.getHeaderNames();
 		while(headerNames.hasMoreElements()) {
 			String headerName = headerNames.nextElement();
-			requestInfoMap.put(headerName, request.getHeader(headerName));
+			headerInfoMap.put(headerName, request.getHeader(headerName));
 		}
+		infoMap.put("HEADER INFORMATION", headerInfoMap);
 		
-		log.debug("######## HTTP Request Information: {}", requestInfoMap);
+		return infoMap;
 	}//:
 }
