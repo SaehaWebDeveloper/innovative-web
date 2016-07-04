@@ -32,6 +32,12 @@ public class AuthController {
 		return mv;
 	}
 	
+	@RequestMapping(value="/excel", method=RequestMethod.GET)
+	public @ResponseBody ModelAndView excelPage(HttpSession session){
+		ModelAndView mv = new ModelAndView("excelView");
+		return mv;
+	}
+	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public @ResponseBody ModelAndView loginProcess(HttpSession session
 			, UserInfo userInfo) throws Exception{

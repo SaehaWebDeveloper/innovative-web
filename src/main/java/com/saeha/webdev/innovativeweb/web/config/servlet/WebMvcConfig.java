@@ -22,6 +22,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
@@ -114,7 +115,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		ContentNegotiatingViewResolver contentNegotiatingViewResolver = new ContentNegotiatingViewResolver();
 		contentNegotiatingViewResolver.setContentNegotiationManager(contentNegotiationManager());
 		contentNegotiatingViewResolver.setDefaultViews(Arrays.asList(jsonView()));
-		contentNegotiatingViewResolver.setOrder(2);
+		contentNegotiatingViewResolver.setOrder(1);
 		return contentNegotiatingViewResolver;
 	}
 	
@@ -129,8 +130,15 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	public TilesViewResolver tilesViewResolver(){
 		TilesViewResolver tilesViewResolver = new TilesViewResolver();
 		tilesViewResolver.setViewClass(TilesView.class);
-		tilesViewResolver.setOrder(3);
+		tilesViewResolver.setOrder(2);
 		return tilesViewResolver;
+	}
+	
+	@Bean
+	public BeanNameViewResolver beanNameViewResolver(){
+		BeanNameViewResolver beanNameViewResolver = new BeanNameViewResolver();
+		beanNameViewResolver.setOrder(3);
+		return beanNameViewResolver;
 	}
 	
 	@Bean
