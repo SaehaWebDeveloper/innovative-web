@@ -35,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 @EnableJpaRepositories(basePackages="${config.spring.jpa.repository.basePackages}")
 public class DatabaseConfig {
 	/**
-	 * JDBC Driver Class Name
+	 * Repository base package
 	 */
 	@Value("${config.spring.jpa.entiry.packagesToScan:}")
 	private String entityPackagesToSacn;
