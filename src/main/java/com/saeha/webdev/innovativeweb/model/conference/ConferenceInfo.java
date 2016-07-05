@@ -52,13 +52,13 @@ public class ConferenceInfo {
 	private Date regDate;
 	
 	@JsonIgnore
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="GROUPCODE", referencedColumnName="GROUPCODE", insertable=false, updatable=false)
 	@Getter@Setter
 	private CompanyInfo companyInfo;
 	
 	@JsonIgnore
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="CREATE_USER_ID", referencedColumnName="USER_ID", insertable=false, updatable=false)
 	@Getter@Setter
 	private UserInfo userInfo;

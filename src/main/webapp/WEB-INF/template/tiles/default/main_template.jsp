@@ -19,7 +19,7 @@
 </head>
 <body>
 
-	<tiles:insertAttribute name="header" />
+	<tiles:insertAttribute name="header" ignore="true" />
 	<tiles:insertAttribute name="body" />
 
 <script type="text/javascript" src="resources/librarys/jquery/js/jquery-2.2.4.min.js"></script>
