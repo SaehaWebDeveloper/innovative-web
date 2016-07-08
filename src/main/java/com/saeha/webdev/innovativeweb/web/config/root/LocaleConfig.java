@@ -1,4 +1,4 @@
-package com.saeha.webdev.innovativeweb.web.config;
+package com.saeha.webdev.innovativeweb.web.config.root;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;

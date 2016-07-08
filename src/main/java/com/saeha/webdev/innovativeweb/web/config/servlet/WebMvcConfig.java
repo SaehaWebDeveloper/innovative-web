@@ -76,8 +76,8 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 					, "/auth/*"
 					, "/message/*"
 					, "/error*"
-					//Test
-					, "/user/*"
+
+					, "/rest/**"
 					);
 	}
 	

@@ -31,11 +31,11 @@ public class ConfigClassLoader {
 		/**
 		 * Root Context
 		 */
-		ROOT("/config"), 
+		ROOT("/config/root/**/*.class"), 
 		/**
 		 * Serlvet Context
 		 */
-		SERVLET("/config/servlet");
+		SERVLET("/config/servlet/**/*.class");
 		
 		/**
 		 * Context 파일의 위치
@@ -55,13 +55,13 @@ public class ConfigClassLoader {
 		try{
 			basePackage = basePackage.replace(".", "/");
 			PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-			Resource[] resources = resolver.getResources(basePackage + configType.getPath() + "/*.class");
+			Resource[] resources = resolver.getResources(basePackage + configType.getPath());
 			
 			for(Resource resource : resources){
 				MetadataReader metadataReader = new SimpleMetadataReaderFactory().getMetadataReader(resource);
 				String className = metadataReader.getClassMetadata().getClassName();
 				if(metadataReader.getAnnotationMetadata().hasAnnotation(Configuration.class.getName())){
-					log.info("LoadType:{}, Configuration Load Class Name:{}", configType, className);
+					log.info("LoadType:{}, Class:{}", configType, className);
 					resultClassList.add(Class.forName(className));
 				}
 			}

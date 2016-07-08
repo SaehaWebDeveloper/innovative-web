@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.saeha.webdev.innovativeweb.common.constants.SessionConstants;
 import com.saeha.webdev.innovativeweb.model.user.UserInfo;
 import com.saeha.webdev.innovativeweb.service.UserService;
 
@@ -26,7 +27,7 @@ public class AuthController {
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public @ResponseBody ModelAndView loginPage(HttpSession session){
 		ModelAndView mv = new ModelAndView("auth/login");
-		if(session.getAttribute("SESSION_USER") != null){
+		if(session.getAttribute(SessionConstants.SESSION_USER) != null){
 			mv.setViewName("redirect:/main");
 		}
 		return mv;
@@ -53,14 +54,14 @@ public class AuthController {
 			return mv;
 		}
 		
-		session.setAttribute("SESSION_USER", userSession);
+		session.setAttribute(SessionConstants.SESSION_USER, userSession);
 		mv.setViewName("redirect:/main");
 		return mv;
 	}
 	
 	@RequestMapping(value="logout")
 	public String logoutProcess(HttpSession session){
-		session.removeAttribute("SESSION_USER");
+		session.removeAttribute(SessionConstants.SESSION_USER);
 		return "redirect:/";
 	}
 }

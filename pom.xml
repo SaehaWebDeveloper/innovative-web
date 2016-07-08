@@ -31,6 +31,8 @@
 		<springframework-data-jpa-version>1.10.2.RELEASE</springframework-data-jpa-version>
 		<springframework-ldap-version>2.1.0.RELEASE</springframework-ldap-version>
 		<springframework-mobile-version>1.1.5.RELEASE</springframework-mobile-version>
+		<springframework-oauth2-version>2.0.10.RELEASE</springframework-oauth2-version>
+		<springframework-security-jwt-version>1.0.4.RELEASE</springframework-security-jwt-version>
 		
 		<!-- == Tiles == -->
 		<tiles-version>3.0.5</tiles-version>
@@ -83,6 +85,8 @@
 		<maven-compiler-plugin-version>3.5.1</maven-compiler-plugin-version>
 		<maven-war-plugin-version>2.6</maven-war-plugin-version>
 		<maven-eclipse-plugin-version>2.10</maven-eclipse-plugin-version>
+		
+		<maven-project-info-reports-plugin-version>2.8</maven-project-info-reports-plugin-version>
 	</properties>
 	
 	<dependencies>
@@ -174,22 +178,50 @@
 			<artifactId>spring-mobile-device</artifactId>
 			<version>${springframework-mobile-version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security.oauth</groupId>
+			<artifactId>spring-security-oauth2</artifactId>
+			<version>${springframework-oauth2-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-jwt</artifactId>
+			<version>${springframework-security-jwt-version}</version>
+		</dependency>
 		
 		<!-- == Tiles == -->
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-core</artifactId>
 			<version>${tiles-version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-jsp</artifactId>
 			<version>${tiles-version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-el</artifactId>
 			<version>${tiles-version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		
 		<!-- == Velocity == -->
@@ -198,11 +230,11 @@
 			<artifactId>velocity</artifactId>
 			<version>${velocity-version}</version>
 		</dependency>
-		<dependency>
+<!-- 		<dependency>
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity-tools</artifactId>
 			<version>${velocity-tools-version}</version>
-		</dependency>
+		</dependency> -->
 		
 		<!-- == DB == -->
 		<!-- == JDBC Driver == -->
@@ -479,4 +511,20 @@
 			<properties></properties>
 		</profile>
 	</profiles>
+	
+	<reporting>
+		<plugins>
+			<!-- Ex) site:site > target/site 폴더에 reporing에 설정한 결과가 site 형식으로 레포팅된다. -->
+			
+			<!-- Reporing Site -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>${maven-project-info-reports-plugin-version}</version>
+				<configuration>
+					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>
