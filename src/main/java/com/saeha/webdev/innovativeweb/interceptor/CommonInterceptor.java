@@ -69,7 +69,6 @@ public class CommonInterceptor extends HandlerInterceptorAdapter{
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	private Map<String, Object> printRequestInfo(HttpServletRequest request) {
 		Map<String, Object> infoMap = new LinkedHashMap<>();
 		

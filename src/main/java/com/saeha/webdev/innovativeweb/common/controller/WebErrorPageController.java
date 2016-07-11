@@ -27,9 +27,13 @@ public class WebErrorPageController {
 				,statusCode, exceptionType, message, requestUri, exception, servletName);
 		
 		ModelAndView mv = new ModelAndView("error/404");
-		mv.addObject("exceptionMessage", statusCode);
+		mv.addObject("uri", requestUri);
+		mv.addObject("statusCode", statusCode);
+		mv.addObject("exceptionMessage", exception != null ? exception.getMessage() : null);
 		
 		if(requestUri.endsWith(".json")){
+			response.setContentType("application/json; charset=UTF-8");
+			return mv.getModelMap();
 		}
 		return mv;
 	}

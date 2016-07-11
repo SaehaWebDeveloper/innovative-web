@@ -22,6 +22,8 @@ public class ExceptionHandlerController {
 		log.error("Server Error.", e);
 		
 		ModelAndView mv = new ModelAndView("error/500");
+		mv.addObject("uri", request.getRequestURI());
+		mv.addObject("statusCode", HttpStatus.INTERNAL_SERVER_ERROR.value());
 		mv.addObject("exceptionMessage", e.getMessage());
 		return mv;
 	}
@@ -29,7 +31,10 @@ public class ExceptionHandlerController {
 	@ExceptionHandler({NoHandlerFoundException.class, NoHandlerFoundException.class})
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public @ResponseBody ModelAndView handlerForNotFound(Exception e, HttpServletRequest request){
+		
 		ModelAndView mv = new ModelAndView("error/404");
+		mv.addObject("uri", request.getRequestURI());
+		mv.addObject("statusCode", HttpStatus.NOT_FOUND.value());
 		mv.addObject("exceptionMessage", e.getMessage());
 		return mv;
 	}
