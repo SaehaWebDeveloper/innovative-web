@@ -19,6 +19,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
@@ -44,12 +45,6 @@ public class OAuth2Config {
 	@Configuration
 	@EnableWebSecurity
 	protected class SecurityConfig extends WebSecurityConfigurerAdapter {
-		
-		@Bean
-		@Override
-		public AuthenticationManager authenticationManagerBean() throws Exception {
-			return super.authenticationManagerBean();
-		}
 	}
 	
 	/**
@@ -60,7 +55,6 @@ public class OAuth2Config {
 	@Configuration
 	@EnableAuthorizationServer
 	protected class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
-		@Autowired private AuthenticationManager authenticationManager;
 		@Autowired private DataSource dataSource;
 		
 		/* (non-Javadoc)
@@ -69,7 +63,7 @@ public class OAuth2Config {
 		@Override
 		public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
 			// 인증서버 자체의 보안정보 설정
-			security.allowFormAuthenticationForClients();
+			security.accessDeniedHandler(oAuth2AccessDeniedHandler());
 		}
 		
 		/* (non-Javadoc)
@@ -91,8 +85,7 @@ public class OAuth2Config {
 			endpoints
 				.tokenStore(tokenStore())
 				.accessTokenConverter(jwtAccessTokenConverter())
-				.approvalStoreDisabled()
-				.authenticationManager(authenticationManager);
+				;
 		}
 		
 		/**
@@ -123,6 +116,11 @@ public class OAuth2Config {
 		@Bean
 		public JdbcClientDetailsService clientDetailsService(){
 			return new JdbcClientDetailsService(dataSource);
+		}
+		
+		@Bean
+		public OAuth2AccessDeniedHandler oAuth2AccessDeniedHandler(){
+			return new OAuth2AccessDeniedHandler();
 		}
 	}
 	

@@ -13,7 +13,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@ControllerAdvice
+@ControllerAdvice(basePackages="${config.spring.component.basePackages}")
 public class ExceptionHandlerController {
 
 	@ExceptionHandler(Exception.class)
@@ -28,10 +28,18 @@ public class ExceptionHandlerController {
 		return mv;
 	}
 	
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	public @ResponseBody ModelAndView handlerForUnauthorized(Exception e, HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("error/401");
+		mv.addObject("uri", request.getRequestURI());
+		mv.addObject("statusCode", HttpStatus.UNAUTHORIZED.value());
+		mv.addObject("exceptionMessage", e.getMessage());
+		return mv;
+	}
+	
 	@ExceptionHandler({NoHandlerFoundException.class, NoHandlerFoundException.class})
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public @ResponseBody ModelAndView handlerForNotFound(Exception e, HttpServletRequest request){
-		
 		ModelAndView mv = new ModelAndView("error/404");
 		mv.addObject("uri", request.getRequestURI());
 		mv.addObject("statusCode", HttpStatus.NOT_FOUND.value());

@@ -23,15 +23,17 @@ public class WebErrorPageController {
 		Throwable exception = (Throwable)request.getAttribute("javax.servlet.error.exception");
 		String servletName = String.valueOf(request.getAttribute("javax.servlet.error.servlet_name"));
 		
-		log.debug("{} {} {} {} {} {}"
+		log.debug("ERROR statusCode:{} exceptionType:{} message:{} requestUri:{} exception:{} servletName:{}"
 				,statusCode, exceptionType, message, requestUri, exception, servletName);
 		
+		// TODO status code에 따른 화면 처리
 		ModelAndView mv = new ModelAndView("error/404");
 		mv.addObject("uri", requestUri);
-		mv.addObject("statusCode", statusCode);
-		mv.addObject("exceptionMessage", exception != null ? exception.getMessage() : null);
 		
-		if(requestUri.endsWith(".json")){
+		mv.addObject("statusCode", statusCode);
+		mv.addObject("exceptionMessage", exception != null ? exception.getMessage() : message);
+		
+		if(requestUri.endsWith(".json") || requestUri.startsWith("/oauth")){
 			response.setContentType("application/json; charset=UTF-8");
 			return mv.getModelMap();
 		}
