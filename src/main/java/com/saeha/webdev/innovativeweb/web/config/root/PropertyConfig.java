@@ -1,4 +1,4 @@
-package com.saeha.webdev.innovativeweb.web.config.servlet;
+package com.saeha.webdev.innovativeweb.web.config.root;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,7 +7,7 @@ import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 /**
- * 공통 기본 설정
+ * Property 설정
  * 
  * @author Pure
  *
@@ -18,7 +18,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 	,@PropertySource(name="dbConfig", value="classpath:/properties/db.properties")
 	,@PropertySource(name="appConfig", value="classpath:/properties/application.properties")
 })
-public class DefaultConfig {
+public class PropertyConfig {
 	/**
 	 * Properties
 	 * 

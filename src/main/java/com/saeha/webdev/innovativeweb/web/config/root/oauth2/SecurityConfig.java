@@ -10,6 +10,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Security
+ * 
+ * @author Pure
+ *
+ */
 @Slf4j
 @Configuration
 @EnableWebSecurity
@@ -21,10 +27,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication()
-			.withUser("webdev").password("webdev").roles("USER")
-			.and()
-			.withUser("shadmin").password("shadmin").roles("USER", "ADMIN");
 	}
 
 	@Bean
