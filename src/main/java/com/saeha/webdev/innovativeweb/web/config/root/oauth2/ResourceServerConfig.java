@@ -30,11 +30,13 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	 */
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
+		// TODO 권한 정의 필요
 		http.requestMatchers().anyRequest()
 			.and()
 			// URI별 권한
-			.authorizeRequests().antMatchers("/rest/**").hasRole("CLIENT");
-			
+			.authorizeRequests().antMatchers("/rest/user/**").hasRole("REST_USER")
+			.and()
+			.authorizeRequests().antMatchers("/rest/conference/**").hasRole("REST_CONFERENCE");
 	}
 	
 	/* (non-Javadoc)
