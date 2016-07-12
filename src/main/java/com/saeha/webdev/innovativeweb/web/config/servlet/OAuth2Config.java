@@ -1,4 +1,6 @@
-package com.saeha.webdev.innovativeweb.web.config.root;
+package com.saeha.webdev.innovativeweb.web.config.servlet;
+
+import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +18,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
@@ -58,6 +61,7 @@ public class OAuth2Config {
 	@EnableAuthorizationServer
 	protected class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 		@Autowired private AuthenticationManager authenticationManager;
+		@Autowired private DataSource dataSource;
 		
 		/* (non-Javadoc)
 		 * @see org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter#configure(org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer)
@@ -73,24 +77,9 @@ public class OAuth2Config {
 		 */
 		@Override
 		public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-			// TODO JDBC
-			// Client 정보 설정
-			clients.inMemory()
-				.withClient("webdev-client")
-					.secret("webdev-client")
-					.authorizedGrantTypes("client_credentials")
-					.authorities("ROLE_REST_USER")
-					.scopes("read", "write")
-					.accessTokenValiditySeconds(60 * 60)
-					.resourceIds(resourceId)
-				.and()
-				.withClient("webdev-client2")
-					.secret("webdev-client2")
-					.authorizedGrantTypes("client_credentials")
-					.authorities("ROLE_REST_CONFERENCE")
-					.scopes("read", "write")
-					.accessTokenValiditySeconds(60 * 60)
-					.resourceIds(resourceId);
+			// JDBC
+			// TODO Custom ClientDetailsService
+			clients.jdbc(dataSource).clients(clientDetailsService());
 		}
 		
 		/* (non-Javadoc)
@@ -125,6 +114,16 @@ public class OAuth2Config {
 		public JwtAccessTokenConverter jwtAccessTokenConverter(){
 			return new JwtAccessTokenConverter();
 		}
+		
+		/**
+		 * Client JDBC Service
+		 * 
+		 * @return ClientDetailsService
+		 */
+		@Bean
+		public JdbcClientDetailsService clientDetailsService(){
+			return new JdbcClientDetailsService(dataSource);
+		}
 	}
 	
 	/**
@@ -135,20 +134,13 @@ public class OAuth2Config {
 	@Configuration
 	@EnableResourceServer
 	protected class ResourceServerConfig extends ResourceServerConfigurerAdapter {
-		
-		/**
-		 * ResourceServer Id
-		 */
-		@Value("${config.oauth.resourceServer:apiServer}")
-		private String resourceId;
-		
 		/* (non-Javadoc)
 		 * @see org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.HttpSecurity)
 		 */
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
 			// TODO 권한 정의 필요
-			http.requestMatchers().anyRequest()
+			http.requestMatchers().anyRequest().antMatchers("/**")
 				.and()
 				// URI별 권한
 				.authorizeRequests().antMatchers("/rest/user/**").hasRole("REST_USER")
