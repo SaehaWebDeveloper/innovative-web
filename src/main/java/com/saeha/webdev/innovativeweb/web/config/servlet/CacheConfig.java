@@ -81,16 +81,27 @@ public class CacheConfig {
 	 */
 	public final static String CACHE_MESSAGE_PROPERTY = "messageProperty";
 	
+	/**
+	 * Cache Manager 생성
+	 * @return
+	 */
 	@Bean
 	public CacheManager cacheManager(){
 		return new HazelcastCacheManager(hazelcastInstance());
 	}
 	
+	/**
+	 * instance 생성
+	 * @return
+	 */
 	@Bean @Lazy
 	public HazelcastInstance hazelcastInstance(){
 		HazelcastInstance  hazelcastInstance = Hazelcast.newHazelcastInstance(config());
 		return hazelcastInstance;
 	}
+	/**
+	 * WAS 종료 시 instance 종료
+	 */
 	@PreDestroy
 	public void destroy(){
 		hazelcastInstance().shutdown();

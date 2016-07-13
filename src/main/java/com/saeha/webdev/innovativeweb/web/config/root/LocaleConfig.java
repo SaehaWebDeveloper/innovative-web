@@ -36,7 +36,7 @@ public class LocaleConfig {
 		messageSource.setBasenames("classpath:message/message", "classpath:message/validation");
 		messageSource.setUseCodeAsDefaultMessage(true);
 		messageSource.setDefaultEncoding("UTF-8");
-		messageSource.setCacheSeconds(0);
+		messageSource.setCacheSeconds(-1);
 		return messageSource;
 	}
 }

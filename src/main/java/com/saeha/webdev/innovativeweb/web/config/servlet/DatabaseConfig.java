@@ -142,7 +142,10 @@ public class DatabaseConfig {
 	@Value("${db.hibernate.format_sql:true}")
 	private String hibernateFormatSql;
 	
-	private JdbcInfoGenerator jdbcInfo;
+	/**
+	 * JDBC 접속 정보 생성기
+	 */
+	private static JdbcInfoGenerator jdbcInfo;
 	
 	/**
 	 * JDBC 접속 설정 생성기
@@ -231,7 +234,7 @@ public class DatabaseConfig {
 	}
 	
 	/**
-	 * Transction Manager 생성
+	 * Transaction Manager 생성
 	 * 
 	 * @return PlatformTransactionManager
 	 * @throws Exception
@@ -244,6 +247,8 @@ public class DatabaseConfig {
 	}
 	
 	/**
+	 * ExceptionTranslator
+	 * 
 	 * @return HibernateExceptionTranslator
 	 */
 	@Bean

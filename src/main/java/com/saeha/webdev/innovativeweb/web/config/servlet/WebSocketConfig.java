@@ -20,16 +20,23 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 	
 	/**
-	 * Text, Binary Buffer Size
+	 * Text, Binary Buffer Size, short max value
 	 */
-	private final static int MAX_BUFFER_SIZE = 65535;
+	private final static int MAXIMUM_BUFFER_SIZE = 65535;
 	
+	/* (non-Javadoc)
+	 * @see org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer#registerStompEndpoints(org.springframework.web.socket.config.annotation.StompEndpointRegistry)
+	 */
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry){
-		registry.addEndpoint("/ws/default")
-			.addInterceptors(new HttpSessionHandshakeInterceptor());
+		registry
+			.addEndpoint("/ws/default") // 접속 URL
+			.addInterceptors(new HttpSessionHandshakeInterceptor()); // HTTP Session을 같이 사용
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer#configureMessageBroker(org.springframework.messaging.simp.config.MessageBrokerRegistry)
+	 */
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
 		registry.enableSimpleBroker("/topic");
@@ -37,11 +44,16 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 		registry.setUserDestinationPrefix("/user");
 	}
 	
+	/**
+	 * WebSocket Server 설정
+	 * @return
+	 */
 	@Bean
 	public ServletServerContainerFactoryBean servletServerContainer(){
 		ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
-		container.setMaxTextMessageBufferSize(MAX_BUFFER_SIZE);
-		container.setMaxBinaryMessageBufferSize(MAX_BUFFER_SIZE);
+		// 메시지 버퍼크기 지정
+		container.setMaxTextMessageBufferSize(MAXIMUM_BUFFER_SIZE);
+		container.setMaxBinaryMessageBufferSize(MAXIMUM_BUFFER_SIZE);
 		return container;
 	}
 }

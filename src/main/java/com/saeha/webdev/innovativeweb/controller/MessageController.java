@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +33,7 @@ public class MessageController {
 	 * @param response HttpServletResponse
 	 * @throws IOException
 	 */
-	@RequestMapping(value="/{messageFileName}", produces={"text/plain"})
+	@RequestMapping(value="/{messageFileName}", produces={MediaType.TEXT_PLAIN_VALUE})
 	public @ResponseBody Object getMessageProperties(
 			@PathVariable String messageFileName
 			, Model model) throws IOException{
@@ -47,7 +48,7 @@ public class MessageController {
 	 * @param model 
 	 * @return 사용가능한 다국어 정보 목록
 	 */
-	@RequestMapping(value="/languages", produces={"application/json; charset=UTF-8"})
+	@RequestMapping(value="/languages", produces={MediaType.APPLICATION_JSON_UTF8_VALUE})
 	public @ResponseBody Model checkAvailableLanguages(Model model){
 		log.debug("Supported Language:{}", Arrays.asList(""));
 		model.addAttribute("languages", new String[]{"", "ko", "en", "ja"});

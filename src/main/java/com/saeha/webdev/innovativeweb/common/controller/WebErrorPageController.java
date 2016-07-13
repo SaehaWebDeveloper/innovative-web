@@ -3,6 +3,7 @@ package com.saeha.webdev.innovativeweb.common.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,7 +35,7 @@ public class WebErrorPageController {
 		mv.addObject("exceptionMessage", exception != null ? exception.getMessage() : message);
 		
 		if(requestUri.endsWith(".json") || requestUri.startsWith("/oauth")){
-			response.setContentType("application/json; charset=UTF-8");
+			response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 			return mv.getModelMap();
 		}
 		return mv;

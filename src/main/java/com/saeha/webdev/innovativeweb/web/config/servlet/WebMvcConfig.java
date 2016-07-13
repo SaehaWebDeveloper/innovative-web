@@ -35,6 +35,12 @@ import com.saeha.webdev.innovativeweb.interceptor.AuthInterceptor;
 import com.saeha.webdev.innovativeweb.interceptor.CommonInterceptor;
 import com.saeha.webdev.innovativeweb.interceptor.DefaultSettingInterceptor;
 
+/**
+ * MVC 설정
+ * 
+ * @author Pure
+ *
+ */
 @Configuration
 @EnableWebMvc
 @EnableSpringDataWebSupport
@@ -47,11 +53,17 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	@Value("#{'${config.tiles.definitions:}'.split(',')}")
 	private String[] tilesDefinitions;
 	
+	/* (non-Javadoc)
+	 * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter#addResourceHandlers(org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry)
+	 */
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter#addViewControllers(org.springframework.web.servlet.config.annotation.ViewControllerRegistry)
+	 */
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		// <mvc:view-controller path="/login" view-name="redirect:/auth/login"> 설정과 동일
@@ -60,6 +72,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		registry.addRedirectViewController("/main", "/conference/list");
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter#addInterceptors(org.springframework.web.servlet.config.annotation.InterceptorRegistry)
+	 */
 	@Override
 	public void addInterceptors(InterceptorRegistry registry){
 		// <mvc:interceptors> 설정과 동일 
@@ -83,23 +98,43 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 					);
 	}
 	
+	/**
+	 * commonInterceptor
+	 * @return
+	 */
 	@Bean
 	public CommonInterceptor commonInterceptor(){
 		return new CommonInterceptor();
 	}
+	/**
+	 * defaultSettingInterceptor
+	 * @return
+	 */
 	@Bean public DefaultSettingInterceptor defaultSettingInterceptor(){
 		return new DefaultSettingInterceptor();
 	}
+	/**
+	 * authInterceptor
+	 * @return
+	 */
 	@Bean
 	public AuthInterceptor authInterceptor(){
 		return new AuthInterceptor();
 	}
 	
+	/**
+	 * jsonView
+	 * @return
+	 */
 	@Bean
 	public MappingJackson2JsonView jsonView(){
 		return new MappingJackson2JsonView();
 	}
 	
+	/**
+	 * ContentNegotiationStrategy
+	 * @return
+	 */
 	@Bean
 	public ContentNegotiationStrategy contentNegotiationStrategy(){
 		Map<String, MediaType> mediaTypeMap = new HashMap<>();
@@ -108,10 +143,18 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		
 		return new PathExtensionContentNegotiationStrategy(mediaTypeMap);
 	}
+	/**
+	 * ContentNegotiationManager
+	 * @return
+	 */
 	@Bean
 	public ContentNegotiationManager contentNegotiationManager(){
 		return new ContentNegotiationManager(contentNegotiationStrategy());
 	}
+	/**
+	 * ContentNegotiating View Resolver
+	 * @return
+	 */
 	@Bean
 	public ContentNegotiatingViewResolver contentNegotiatingViewResolver(){
 		ContentNegotiatingViewResolver contentNegotiatingViewResolver = new ContentNegotiatingViewResolver();
@@ -121,6 +164,10 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		return contentNegotiatingViewResolver;
 	}
 	
+	/**
+	 * Tiles 설정
+	 * @return
+	 */
 	@Bean
 	public TilesConfigurer tilesConfigurer(){
 		TilesConfigurer tilesConfigurer = new TilesConfigurer();
@@ -128,6 +175,10 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		return tilesConfigurer;
 	}
 	
+	/**
+	 * Tiles View Resolver
+	 * @return
+	 */
 	@Bean
 	public TilesViewResolver tilesViewResolver(){
 		TilesViewResolver tilesViewResolver = new TilesViewResolver();
@@ -136,6 +187,10 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		return tilesViewResolver;
 	}
 	
+	/**
+	 * BeanName View Resolver - ExcelView
+	 * @return
+	 */
 	@Bean
 	public BeanNameViewResolver beanNameViewResolver(){
 		BeanNameViewResolver beanNameViewResolver = new BeanNameViewResolver();
@@ -143,6 +198,10 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		return beanNameViewResolver;
 	}
 	
+	/**
+	 * JSP View Resolver
+	 * @return
+	 */
 	@Bean
 	public ViewResolver viewResolver(){
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -153,6 +212,11 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		return viewResolver;
 	}
 	
+	/**
+	 * Default pageable 설정
+	 * 
+	 * @return
+	 */
 	@Bean
 	public PageableHandlerMethodArgumentResolver pageableHandlerMethodArgumentResolver(){
 		PageableHandlerMethodArgumentResolver resolver = new PageableHandlerMethodArgumentResolver();

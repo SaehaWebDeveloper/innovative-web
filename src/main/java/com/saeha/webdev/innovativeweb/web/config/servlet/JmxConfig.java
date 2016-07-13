@@ -31,15 +31,21 @@ import lombok.extern.slf4j.Slf4j;
 public class JmxConfig {
 	
 	/**
+	 * jmx remote file path
+	 * base classpath
+	 */
+	private final static String REMOTE_FILE_PATH = "jmx";
+	
+	/**
 	 * access file path.
 	 * base classpath
 	 */
-	private final static String REMOTE_ACCESS_FILE_PATH = "jmx/jmxremote.access";
+	private final static String REMOTE_ACCESS_FILE_PATH = REMOTE_FILE_PATH + "/jmxremote.access";
 	/**
 	 * password file path.
 	 * base classpath
 	 */
-	private final static String REMOTE_PASSWORD_FILE_PATH = "jmx/jmxremote.password";
+	private final static String REMOTE_PASSWORD_FILE_PATH = REMOTE_FILE_PATH + "/jmxremote.password";
 	
 	/**
 	 * JMX Remote 접속 사용자 인증 및 권한
@@ -58,8 +64,17 @@ public class JmxConfig {
 		 */
 		MONITOR("monitor", "monitor123", "readonly");
 		
+		/**
+		 * 사용자
+		 */
 		@Getter private String username;
+		/**
+		 * 패스워드
+		 */
 		@Getter private String password;
+		/**
+		 * 권한(readwrite, readonly)
+		 */
 		@Getter private String authentication;
 		
 		/**
@@ -156,7 +171,7 @@ public class JmxConfig {
 		if(remoteEnable){
 			remoteSetting(connectorServerFactoryBean);
 		}
-		
+		log.info("JMX server url:{}", serviceUrl);
 		return connectorServerFactoryBean;
 	}
 	
@@ -198,6 +213,7 @@ public class JmxConfig {
 		environment.setProperty("jmx.remote.x.access.file", remoteAccessFile.getAbsolutePath());
 		environment.setProperty("jmx.remote.x.password.file", remotePasswordFile.getAbsolutePath());
 		connectorServerFactoryBean.setEnvironment(environment);
+		log.info("JMX Remote Setting. path:{}", remoteAccessFile.getParent());
 	}
 	
 	/**
