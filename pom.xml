@@ -31,6 +31,7 @@
 		<springframework-data-jpa-version>1.10.2.RELEASE</springframework-data-jpa-version>
 		<springframework-ldap-version>2.1.0.RELEASE</springframework-ldap-version>
 		<springframework-mobile-version>1.1.5.RELEASE</springframework-mobile-version>
+		<springframework-session-version>1.2.1.RELEASE</springframework-session-version>
 		<springframework-oauth2-version>2.0.10.RELEASE</springframework-oauth2-version>
 		<springframework-security-jwt-version>1.0.4.RELEASE</springframework-security-jwt-version>
 		
@@ -175,6 +176,11 @@
 			<groupId>org.springframework.mobile</groupId>
 			<artifactId>spring-mobile-device</artifactId>
 			<version>${springframework-mobile-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session</artifactId>
+			<version>${springframework-session-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security.oauth</groupId>
