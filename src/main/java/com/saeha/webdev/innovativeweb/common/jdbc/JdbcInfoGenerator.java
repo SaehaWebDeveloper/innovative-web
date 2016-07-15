@@ -8,7 +8,7 @@ import lombok.ToString;
  * @author Pure
  *
  */
-@ToString
+@ToString(exclude="password")
 public enum JdbcInfoGenerator {
 	/**
 	 * Maria DB or MySQL

@@ -23,11 +23,14 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * OAuth 설정
  * @author Pure
  *
  */
+@Slf4j
 @Configuration
 public class OAuth2Config {
 	/**
@@ -54,6 +57,10 @@ public class OAuth2Config {
 	@Configuration
 	@EnableAuthorizationServer
 	protected class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
+		
+		/**
+		 * Project DataSource
+		 */
 		@Autowired private DataSource dataSource;
 		
 		/* (non-Javadoc)
@@ -61,8 +68,15 @@ public class OAuth2Config {
 		 */
 		@Override
 		public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-			// 인증서버 자체의 보안정보 설정
+			// 토큰 엔트 포인트의 보안 제약 조건 정의
 			security.accessDeniedHandler(oAuth2AccessDeniedHandler());
+			
+			// https only
+			//security.sslOnly();
+			// "/oauth/token_key" 접근 권한
+			//security.tokenKeyAccess("permitAll()");
+			// "/oauth/check_token" 접근 권한
+			//security.checkTokenAccess("permitAll()");
 		}
 		
 		/* (non-Javadoc)
@@ -70,6 +84,7 @@ public class OAuth2Config {
 		 */
 		@Override
 		public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+			// 클라이언트 정보 서비스를 정의 및 구성
 			// JDBC
 			// TODO Custom ClientDetailsService
 			clients.jdbc(dataSource).clients(clientDetailsService());
@@ -80,7 +95,7 @@ public class OAuth2Config {
 		 */
 		@Override
 		public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-			// 인증 서버가 작동하기 위한 Endpoint 정보 설정
+			// 인증 토큰 엔드 포인트와 토큰 서비스를 정의
 			endpoints
 				.tokenStore(tokenStore())
 				.accessTokenConverter(jwtAccessTokenConverter())
@@ -119,7 +134,8 @@ public class OAuth2Config {
 		
 		@Bean
 		public OAuth2AccessDeniedHandler oAuth2AccessDeniedHandler(){
-			return new OAuth2AccessDeniedHandler();
+			OAuth2AccessDeniedHandler oAuth2AccessDeniedHandler = new OAuth2AccessDeniedHandler();
+			return oAuth2AccessDeniedHandler;
 		}
 	}
 	

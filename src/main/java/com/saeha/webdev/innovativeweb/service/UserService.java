@@ -17,10 +17,6 @@ public class UserService{
 	@Transactional(readOnly=true, rollbackFor=Exception.class)
 	public UserInfo checkUser(UserInfo userInfo) throws Exception{
 		UserInfo result = userInfoRepository.findByUserRealIdAndGroupcode(userInfo.getUserRealId(), userInfo.getGroupcode());
-		
-		
-		log.debug("{}", result.getUserinfoFuncList());
-		
 		return result;
 	}
 	

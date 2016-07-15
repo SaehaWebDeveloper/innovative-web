@@ -22,7 +22,7 @@ public class OAuthTestController {
 	@RequestMapping(value="/conference/{groupcode}")
 	public @ResponseBody ModelAndView conferenceList(@PathVariable String groupcode){
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("groupcode", "groupcode");
+		mv.addObject("groupcode", groupcode);
 		mv.addObject("date", new Date());
 		return mv;
 	}

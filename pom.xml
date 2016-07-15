@@ -241,6 +241,12 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- == Encryption == -->
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt-spring3</artifactId>
+			<version>1.9.0</version>
+		</dependency>
 		
 		<!-- == Json Parser == -->
 		<dependency>
@@ -394,12 +400,12 @@
 	<!-- Project Deploy Repository - Nexus -->
 	<distributionManagement>
 		<repository>
-			<id>test-releases</id>
+			<id>releases</id>
 			<name>Releases Repository</name>
 			<url>http://${nexus-ip}:${nexus-port}/nexus/content/repositories/releases</url>
 		</repository>
 		<snapshotRepository>
-			<id>test-snapshots</id>
+			<id>snapshots</id>
 			<name>Snapshots Repository</name>
 			<url>http://${nexus-ip}:${nexus-port}/nexus/content/repositories/snapshots</url>
 			<uniqueVersion>false</uniqueVersion>
