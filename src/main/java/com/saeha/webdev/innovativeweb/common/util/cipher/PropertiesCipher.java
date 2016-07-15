@@ -3,6 +3,7 @@ package com.saeha.webdev.innovativeweb.common.util.cipher;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 
 /**
+ * properties에서 사용할 정보 암호화기
  * @author Pure
  *
  */

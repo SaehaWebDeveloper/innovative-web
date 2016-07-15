@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.mobile.device.Device;
+import org.springframework.mobile.device.DeviceUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler;
@@ -102,6 +104,14 @@ public class CommonInterceptor extends HandlerInterceptorAdapter{
 			headerInfoMap.put(headerName, request.getHeader(headerName));
 		}
 		infoMap.put("HEADER INFORMATION", headerInfoMap);
+		
+		Device device = (Device)request.getAttribute(DeviceUtils.CURRENT_DEVICE_ATTRIBUTE);
+		Map<String, Object> deviceMap = new LinkedHashMap<>();
+		if(device != null){
+			deviceMap.put("Device", device.toString());
+			deviceMap.put("Platform", device.getDevicePlatform());
+		}
+		infoMap.put("DEVICE INFORMATION", deviceMap);
 		
 		return infoMap;
 	}//:

@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,7 +25,7 @@ public class AuthController {
 	@Autowired private UserService userService;
 	@Autowired private MessageSource messageSource;
 	
-	@RequestMapping(value="/login", method=RequestMethod.GET)
+	@GetMapping(value="/login")
 	public @ResponseBody ModelAndView loginPage(HttpSession session){
 		ModelAndView mv = new ModelAndView("auth/login");
 		if(session.getAttribute(SessionConstants.SESSION_USER) != null){
@@ -33,13 +34,7 @@ public class AuthController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/excel", method=RequestMethod.GET)
-	public @ResponseBody ModelAndView excelPage(HttpSession session){
-		ModelAndView mv = new ModelAndView("excelView");
-		return mv;
-	}
-	
-	@RequestMapping(value="/login", method=RequestMethod.POST)
+	@PostMapping(value="/login")
 	public @ResponseBody ModelAndView loginProcess(HttpSession session
 			, UserInfo userInfo) throws Exception{
 		// FIXME 로그인 실패 처리

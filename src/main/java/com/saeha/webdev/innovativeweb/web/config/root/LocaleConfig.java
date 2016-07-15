@@ -1,5 +1,6 @@
 package com.saeha.webdev.innovativeweb.web.config.root;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,12 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
  */
 @Configuration
 public class LocaleConfig {
+	
+	/**
+	 * 다국어 메시지 파일 경로
+	 */
+	@Value("#{'${config.message.basenames:classpath:message/message}'.split(',')}")
+	private String[] messageBasenames;
 	
 	/**
 	 * 다국어 설정 방식
@@ -33,7 +40,7 @@ public class LocaleConfig {
 	@Bean
 	public MessageSource messageSource(){
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setBasenames("classpath:message/message", "classpath:message/validation");
+		messageSource.setBasenames(messageBasenames);
 		messageSource.setUseCodeAsDefaultMessage(true);
 		messageSource.setDefaultEncoding("UTF-8");
 		messageSource.setCacheSeconds(-1);

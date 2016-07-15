@@ -2,6 +2,7 @@ package com.saeha.webdev.innovativeweb.web.config.servlet;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -12,9 +13,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.http.MediaType;
+import org.springframework.mobile.device.DeviceHandlerMethodArgumentResolver;
+import org.springframework.mobile.device.DeviceResolverHandlerInterceptor;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.accept.ContentNegotiationStrategy;
 import org.springframework.web.accept.PathExtensionContentNegotiationStrategy;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -78,6 +82,8 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry){
 		// <mvc:interceptors> 설정과 동일 
+		registry.addInterceptor(deviceResolverHandlerInterceptor());
+		
 		LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
 		localeChangeInterceptor.setParamName("language");
 		registry.addInterceptor(localeChangeInterceptor);
@@ -96,6 +102,14 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 					// Test
 					, "/test/**"
 					);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter#addArgumentResolvers(java.util.List)
+	 */
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+		argumentResolvers.add(deviceHandlerMethodArgumentResolver());
 	}
 	
 	/**
@@ -120,6 +134,16 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public AuthInterceptor authInterceptor(){
 		return new AuthInterceptor();
+	}
+	
+	@Bean
+	public DeviceResolverHandlerInterceptor deviceResolverHandlerInterceptor(){
+		return new DeviceResolverHandlerInterceptor();
+	}
+	
+	@Bean
+	public DeviceHandlerMethodArgumentResolver deviceHandlerMethodArgumentResolver(){
+		return new DeviceHandlerMethodArgumentResolver();
 	}
 	
 	/**

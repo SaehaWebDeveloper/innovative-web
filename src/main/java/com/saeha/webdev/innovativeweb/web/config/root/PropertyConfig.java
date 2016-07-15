@@ -12,7 +12,7 @@ import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 /**
- * Property 설정
+ * Property 설정 (dependency. jasypt - properties 암호화)
  * 
  * @author Pure
  *
@@ -26,6 +26,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 public class PropertyConfig {
 	
 	/**
+	 * 암호화 환경 설정
 	 * @return
 	 */
 	@Bean
@@ -37,6 +38,7 @@ public class PropertyConfig {
 	}
 	
 	/**
+	 * 암호화 객체 생성
 	 * @return
 	 */
 	@Bean

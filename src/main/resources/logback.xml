@@ -53,7 +53,7 @@
 	
 	<root level="${log.level.root}">
 		<appender-ref ref="STDOUT" />
-		<!-- <appender-ref ref="FILE" />
-		<appender-ref ref="FILE_WARN" /> -->
+		<!-- <appender-ref ref="FILE" /> -->
+		<!-- <appender-ref ref="FILE_WARN" /> -->
 	</root>
 </configuration>

@@ -4,7 +4,7 @@
 <tiles-definitions>
 	<!-- 로그인 -->
 	<definition name="auth/login" templateExpression="/WEB-INF/template/tiles/login_template.jsp">
-		<put-attribute name="body" expression="/WEB-INF/views/skin/${SKIN_INFO.skinCode}/auth/login.jsp" />
+		<put-attribute name="body" expression="/WEB-INF/views/skin/${SESSION_SKIN_INFO.skinCode}/auth/login.jsp" />
 	</definition>
 	
 	<!-- 비어있는 템블릿 - 팝업, 오류 페이지 등 -->
@@ -21,14 +21,14 @@
 	</definition>
 	
 	<!-- 기본 템플릿 -->
-	<definition name="defaultTemplate" templateExpression="/WEB-INF/template/tiles/${SKIN_INFO.skinCode}/main_template.jsp">
-		<put-attribute name="header" expression="/WEB-INF/template/tiles/${SKIN_INFO.skinCode}/header.jsp" />
+	<definition name="defaultTemplate" templateExpression="/WEB-INF/template/tiles/${SESSION_SKIN_INFO.skinCode}/main_template.jsp">
+		<put-attribute name="header" expression="/WEB-INF/template/tiles/${SESSION_SKIN_INFO.skinCode}/header.jsp" />
 	</definition>
 	
 	<!-- 기본 URL 처리 -->
 	<definition name="*/*" extends="defaultTemplate">
 		<put-attribute name="location" value="{1}/{2}" />
-		<put-attribute name="body" expression="/WEB-INF/views/skin/${SKIN_INFO.skinCode}/{1}/{2}.jsp" />
+		<put-attribute name="body" expression="/WEB-INF/views/skin/${SESSION_SKIN_INFO.skinCode}/{1}/{2}.jsp" />
 	</definition>
 
 </tiles-definitions>
