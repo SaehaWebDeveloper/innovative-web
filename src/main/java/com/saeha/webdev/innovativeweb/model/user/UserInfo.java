@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
@@ -48,6 +51,7 @@ public class UserInfo {
 	@JsonIgnore
 	@OneToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name="USER_ID", referencedColumnName="USER_ID")
+	@NotFound(action=NotFoundAction.IGNORE)
 	@Getter@Setter
 	private List<UserInfoFunc> UserinfoFuncList;
 }

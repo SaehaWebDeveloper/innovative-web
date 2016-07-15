@@ -10,6 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.saeha.webdev.innovativeweb.model.company.CompanyInfo;
 import com.saeha.webdev.innovativeweb.model.user.UserInfo;
@@ -54,12 +57,14 @@ public class ConferenceInfo {
 	@JsonIgnore
 	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="GROUPCODE", referencedColumnName="GROUPCODE", insertable=false, updatable=false)
+	@NotFound(action=NotFoundAction.IGNORE)
 	@Getter@Setter
 	private CompanyInfo companyInfo;
 	
 	@JsonIgnore
 	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="CREATE_USER_ID", referencedColumnName="USER_ID", insertable=false, updatable=false)
+	@NotFound(action=NotFoundAction.IGNORE)
 	@Getter@Setter
 	private UserInfo userInfo;
 }
