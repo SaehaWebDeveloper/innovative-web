@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-@ManagedResource(objectName="com.pure.test:type=withoutxml,name=test")
+@ManagedResource(objectName="${config.mbean.prefix}:type=withoutxml,name=test")
 public class PureTestMbean {
 	
 	private int count;

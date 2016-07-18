@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
 
 @Component
-@ManagedResource(objectName="com.pure.test:name=websocket,type=session")
+@ManagedResource(objectName="${config.mbean.prefix}:type=session,name=websocket")
 public class WebSocketSessionManager {
 	
 	private Set<WebSocketSession> sessions = new CopyOnWriteArraySet<>();

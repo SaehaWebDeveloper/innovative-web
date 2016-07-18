@@ -10,6 +10,7 @@ import org.springframework.web.servlet.support.AbstractDispatcherServletInitiali
  *
  */
 public class SecurityWebApplicationInitializer extends AbstractSecurityWebApplicationInitializer {
+	
 	/* (non-Javadoc)
 	 * @see org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer#getDispatcherWebApplicationContextSuffix()
 	 */
