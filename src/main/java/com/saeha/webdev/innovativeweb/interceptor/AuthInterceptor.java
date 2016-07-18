@@ -24,7 +24,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 			return true;
 		}
 		
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
 		UserInfo userSession = (UserInfo)session.getAttribute(SessionConstants.SESSION_USER);
 		
 		if(userSession == null){

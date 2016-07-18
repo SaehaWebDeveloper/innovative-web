@@ -1,5 +1,6 @@
 package com.saeha.webdev.innovativeweb.model.user;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -24,8 +25,13 @@ import lombok.ToString;
 @Entity
 @Table(name="TB_USERINFO")
 @ToString
-public class UserInfo {
+public class UserInfo implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1082106813876985486L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="USER_ID")
