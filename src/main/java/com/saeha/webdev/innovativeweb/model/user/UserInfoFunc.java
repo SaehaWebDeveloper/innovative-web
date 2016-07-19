@@ -1,5 +1,7 @@
 package com.saeha.webdev.innovativeweb.model.user;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -17,7 +19,12 @@ import lombok.ToString;
 @Table(name="TB_USERINFO_FUNC") 
 @IdClass(UserinfoFuncPk.class)
 @ToString
-public class UserInfoFunc {
+public class UserInfoFunc implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2088062578225020458L;
+
 	@AllArgsConstructor
 	public enum FunctionType{
 		CREATE(0), JOIN(1), REMOTE(3), QUESTION(3), OBSVER(4);

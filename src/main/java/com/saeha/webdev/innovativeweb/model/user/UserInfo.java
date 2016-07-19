@@ -55,7 +55,7 @@ public class UserInfo implements Serializable {
 	private int groupcode;
 	
 	@JsonIgnore
-	@OneToMany(fetch=FetchType.LAZY)
+	@OneToMany(fetch=FetchType.EAGER)
 	@JoinColumn(name="USER_ID", referencedColumnName="USER_ID")
 	@NotFound(action=NotFoundAction.IGNORE)
 	@Getter@Setter

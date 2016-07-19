@@ -10,9 +10,6 @@ public class TestController {
 	@RequestMapping(value="/home")
 	public String homePage() throws Exception {
 		
-		if(true)
-			throw new Exception("Asfasfasdfasdfasdf");
-		
 		return "test/home";
 	}
 }

@@ -4,14 +4,7 @@
 	<s:message code="password" arguments="Pure" htmlEscape="true" />
 
 
-<a href="logout">로그아웃</a>
-
-
-${user}
-
 ${list}
-
-
 
 <c:forEach var="conference" items="${list.content}">
 	<div>${conference.confcode} - ${conference.title}</div>
