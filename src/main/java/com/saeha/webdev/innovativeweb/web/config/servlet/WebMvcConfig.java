@@ -65,6 +65,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		registry.addResourceHandler("/resources/**")
 			.addResourceLocations("/resources/")
 			.setCachePeriod(60 * 60);
+		registry.addResourceHandler("/resources/librarys/**")
+			.addResourceLocations("/webjars/", "/resources/librarys/")
+			.setCachePeriod(60 * 60);
 	}
 	
 	/* (non-Javadoc)

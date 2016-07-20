@@ -13,17 +13,17 @@
 
 <base href="${req.scheme}://${req.serverName}:${req.serverPort}${req.contextPath}/">
 
-<link rel="stylesheet" type="text/css" href="resources/librarys/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="resources/librarys/bootstrap/3.3.6/dist/css/bootstrap.min.css">
 
 <title>ERROR</title>
 </head>
 <body>
 <tiles:insertAttribute name="body" />
 
-<script type="text/javascript" src="resources/librarys/jquery/js/jquery-2.2.4.min.js"></script>
-<script type="text/javascript" src="resources/librarys/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="resources/librarys/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript" src="resources/librarys/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-<script type="text/javascript" src="resources/librarys/i18n/js/jquery.i18n.properties.min.js"></script>
+<script type="text/javascript" src="resources/librarys/jquery-i18n-properties/1.2.2/jquery.i18n.properties.min.js"></script>
 <script type="text/javascript" src="resources/js/util/i18nUtil.js"></script>
 
 <script type="text/javascript" src="resources/js/<tiles:getAsString name="location" ignore="true" />.js"></script>
