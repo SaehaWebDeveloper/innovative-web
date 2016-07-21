@@ -13,23 +13,23 @@
 
 <base href="${req.scheme}://${req.serverName}:${req.serverPort}${req.contextPath}/">
 
-<link rel="stylesheet" type="text/css" href="resources/librarys/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="resources/librarys/bootstrap/${webjars-bootstrap-version}/css/bootstrap.min.css">
 
-<title>Login Page</title>
-</head>
+<title>InnovativeWeb - ${SESSION_APP_CONFIG.projectVersion}</title>
+</head> 
 <body style="height: 100%; background-image: url('resources/image/login_background.jpg');">
 <tiles:insertAttribute name="body" />
 
-<script type="text/javascript" src="resources/librarys/jquery/2.2.4/jquery.min.js"></script>
-<script type="text/javascript" src="resources/librarys/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="resources/librarys/jquery/${webjars-jquery-version}/jquery.min.js"></script>
+<script type="text/javascript" src="resources/librarys/bootstrap/${webjars-bootstrap-version}/js/bootstrap.min.js"></script>
 
-<script type="text/javascript" src="resources/librarys/jquery-i18n-properties/1.2.2/jquery.i18n.properties.min.js"></script>
+<script type="text/javascript" src="resources/librarys/jquery-i18n-properties/${webjars-jquery-i18n-properties-version}/jquery.i18n.properties.min.js"></script>
 <script type="text/javascript" src="resources/js/util/i18nUtil.js"></script>
 
-<script type="text/javascript" src="resources/librarys/jquery-validation/1.15.0/jquery.validate.min.js"></script>
+<script type="text/javascript" src="resources/librarys/jquery-validation/${webjars-jquery-validation-version}/jquery.validate.min.js"></script>
 <script type="text/javascript" src="resources/librarys/jquery-validation/localization/messages_${language}.js"></script>
 
-<script type="text/javascript" src="resources/librarys/stomp-websocket/2.3.3/stomp.min.js"></script>
+<script type="text/javascript" src="resources/librarys/stomp-websocket/${webjars-stomp-websocket-version}/stomp.min.js"></script>
 <script type="text/javascript" src="resources/js/util/websocketUtil.js"></script>
 
 <script type="text/javascript">

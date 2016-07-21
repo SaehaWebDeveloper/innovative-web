@@ -490,6 +490,14 @@
 	</pluginRepositories>
 	
 	<build>
+		<!-- parameterize -->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -519,6 +527,16 @@
 				<configuration>
 					<!-- web.xml이 없는 경우 오류 처리 여부 -->
 					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<!-- parameterize -->
+					<webResources>
+						<webResource>
+							<directory>src/main/webapp</directory>
+							<filtering>true</filtering>
+							<includes>
+								<include>WEB-INF/template/tiles/**/*.jsp</include>
+							</includes>
+						</webResource>
+					</webResources>
 				</configuration>
 			</plugin>
 			<plugin>

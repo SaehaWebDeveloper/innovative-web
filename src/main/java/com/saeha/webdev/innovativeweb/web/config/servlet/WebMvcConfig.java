@@ -51,6 +51,8 @@ import com.saeha.webdev.innovativeweb.interceptor.DefaultSettingInterceptor;
 @ComponentScan(basePackages={"${config.spring.component.basePackages}"})
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	
+	private static final Integer RESOURCE_CACHE_PERIOD_SECOND = 60 * 60;
+	
 	/**
 	 * Tiles Definitions
 	 */
@@ -64,10 +66,10 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/**")
 			.addResourceLocations("/resources/")
-			.setCachePeriod(60 * 60);
+			.setCachePeriod(RESOURCE_CACHE_PERIOD_SECOND);
 		registry.addResourceHandler("/resources/librarys/**")
 			.addResourceLocations("/webjars/", "/resources/librarys/")
-			.setCachePeriod(60 * 60);
+			.setCachePeriod(RESOURCE_CACHE_PERIOD_SECOND);
 	}
 	
 	/* (non-Javadoc)

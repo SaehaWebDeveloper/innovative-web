@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.saeha.webdev.innovativeweb.common.constants.AppConfig;
 import com.saeha.webdev.innovativeweb.common.constants.SessionConstants;
 import com.saeha.webdev.innovativeweb.model.skin.SkinInfo;
 import com.saeha.webdev.innovativeweb.service.MessageService;
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DefaultSettingInterceptor extends HandlerInterceptorAdapter {
 	@Autowired private MessageService messageService;
+	@Autowired private AppConfig appConfig;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -37,6 +39,7 @@ public class DefaultSettingInterceptor extends HandlerInterceptorAdapter {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute(SessionConstants.SESSION_SKIN_INFO, new SkinInfo());
+		session.setAttribute(SessionConstants.SESSION_APP_CONFIG, appConfig);
 		
 		return true;
 	}
